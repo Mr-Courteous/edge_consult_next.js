@@ -137,7 +137,7 @@ const Navbar = () => {
                             </>
                         ) : (
                             <>
-                                <Link href="/admin/login">
+                                <Link href="/adminlogin">
                                     <Button
                                         variant="outline"
                                         size="sm"

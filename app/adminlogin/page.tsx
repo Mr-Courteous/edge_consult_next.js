@@ -1,6 +1,6 @@
-'use client'; 
+'use client';
 
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from 'react-hot-toast';
@@ -12,6 +12,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Layout from "@/components/Layout";
 import baseURL from '@/lib/config';
 
+// Define explicit types for props to prevent `any` usage
+interface CopyToClipboardProps {
+  textToCopy: string;
+  className: string;
+}
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +27,10 @@ const AdminLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  // A flag to control the visibility of the register link
+  const showRegisterLink = false;
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -55,7 +63,7 @@ const AdminLogin = () => {
     }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -140,17 +148,19 @@ const AdminLogin = () => {
                 </Button>
               </form>
 
-              <div className="mt-6 text-center">
-                <p className="text-sm text-muted-foreground">
-                  Don&apos;t have an admin account?{" "}
-                  <Link
-                    href="/adminregister"
-                    className="font-medium text-primary hover:text-primary/80"
-                  >
-                    Register here
-                  </Link>
-                </p>
-              </div>
+              {showRegisterLink && (
+                <div className="mt-6 text-center">
+                  <p className="text-sm text-muted-foreground">
+                    Don&apos;t have an admin account?{" "}
+                    <Link
+                      href="/adminregister"
+                      className="font-medium text-primary hover:text-primary/80"
+                    >
+                      Register here
+                    </Link>
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -160,16 +170,3 @@ const AdminLogin = () => {
 };
 
 export default AdminLogin;
-
-
-
-
-// ./app/adminlogin/page.tsx
-
-// ./app/how it works/page.tsx
-
-// ./app/jobs/pages.tsx
-
-// ./app/services/page.tsx
-
-// ./app/testimonials/Testimonials.tsx
