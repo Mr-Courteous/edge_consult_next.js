@@ -37,7 +37,7 @@ const AdminDashboard = () => {
     const router = useRouter();
 
     // Helper function to handle authentication errors
-    const handleAuthError = (message) => {
+    const handleAuthError = (message: string) => { // <-- FIXED LINE: Added ': string' to the message parameter
         toast.error(`Authentication Error: ${message}`);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -90,7 +90,7 @@ const AdminDashboard = () => {
         setFormData(prev => ({ ...prev, author: parsedUser.id }));
 
         fetchDashboardData(token);
-    }, [router]);
+    }, [router, fetchDashboardData]); // Added fetchDashboardData to dependency array to fix lint warning
 
     const handleLogout = () => {
         localStorage.removeItem('token');
