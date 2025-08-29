@@ -1,6 +1,6 @@
 'use client'; 
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 import { PlusCircle, FileText, Users, LogOut, Upload, MessageCircle, Eye } from "lucide-react";
@@ -37,14 +37,15 @@ const AdminDashboard = () => {
     const router = useRouter();
 
     // Helper function to handle authentication errors
-    const handleAuthError = (message: string) => { // <-- FIXED LINE: Added ': string' to the message parameter
+    const handleAuthError = (message: string) => {
         toast.error(`Authentication Error: ${message}`);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         router.push('/adminlogin');
     };
 
-    const fetchDashboardData = async (token) => {
+    // Use useCallback to memoize the function and fix the useEffect dependency warning
+    const fetchDashboardData = useCallback(async (token: string) => { // <-- FIXED LINE: Added ': string' and wrapped in useCallback
         try {
             const [dashboardResponse, metricsResponse] = await Promise.all([
                 fetch(`${baseURL}/admin-dashboard`, {
@@ -74,7 +75,7 @@ const AdminDashboard = () => {
             console.error("Error fetching dashboard data:", error);
             toast.error("Connection Error: Failed to fetch dashboard data. Please try again later.");
         }
-    };
+    }, [handleAuthError]); // Add handleAuthError as a dependency
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -90,7 +91,7 @@ const AdminDashboard = () => {
         setFormData(prev => ({ ...prev, author: parsedUser.id }));
 
         fetchDashboardData(token);
-    }, [router, fetchDashboardData]); // Added fetchDashboardData to dependency array to fix lint warning
+    }, [router, fetchDashboardData]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
