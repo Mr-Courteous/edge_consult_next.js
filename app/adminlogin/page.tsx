@@ -160,3 +160,16 @@ const AdminLogin = () => {
 };
 
 export default AdminLogin;
+
+
+
+
+// ./app/adminlogin/page.tsx
+
+// ./app/how it works/page.tsx
+
+// ./app/jobs/pages.tsx
+
+// ./app/services/page.tsx
+
+// ./app/testimonials/Testimonials.tsx

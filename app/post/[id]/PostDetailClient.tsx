@@ -99,7 +99,7 @@ const PostDetailClient = () => {
     setIsSubmitting(true);
     try {
       const body = { content: commentContent, author_info: { fullName: authorName, email: authorEmail } };
-      const res = await fetch(`${baseURL}/posts/${id}/comments`, {
+      const res = await fetch(`${baseURL}/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)

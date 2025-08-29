@@ -39,12 +39,9 @@ export default function Index() {
       <section className="relative min-h-[75vh] flex items-center justify-center bg-gradient-to-br from-indigo-900 via-violet-700 to-fuchsia-700 overflow-hidden">
         <div className="absolute inset-0 bg-black/40 z-0" />
         <div
-          className="absolute inset-0 opacity-20 z-0"
+          className="absolute inset-0 z-0 bg-bottom bg-cover opacity-20" // <-- FIXED LINE: Changed from 'bg-contain bg-no-repeat' to 'bg-cover' and added 'bg-bottom'
           style={{
-            backgroundImage: `url(${heroBg.src})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
+            backgroundImage: `url(${heroBg.src})`
           }}
         />
         <div className="relative z-10 w-full">
@@ -61,7 +58,6 @@ export default function Index() {
               career guidance, and life-changing opportunities worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-2 mb-8">
-              {/* Added mb-8 for spacing below buttons */}
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-fuchsia-500 to-violet-500 text-white font-orbitron font-semibold px-8 py-4 text-lg shadow-xl hover:scale-105 hover:from-fuchsia-600 hover:to-violet-600 transition-all duration-200 border-none"

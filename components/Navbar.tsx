@@ -215,7 +215,7 @@ const Navbar = () => {
                                 </>
                             ) : (
                                 <>
-                                    <Link href="/admin/login" onClick={() => setIsOpen(false)}>
+                                    <Link href="/adminlogin" onClick={() => setIsOpen(false)}>
                                         <Button variant="outline" className="w-full rounded-lg border-gray-400 text-gray-600 hover:bg-gray-100">
                                             Admin Login
                                         </Button>
