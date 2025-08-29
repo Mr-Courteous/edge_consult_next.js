@@ -10,7 +10,7 @@ const Testimonials = () => {
       role: "CEO, TechFlow Solutions",
       company: "TechFlow Solutions",
       rating: 5,
-      text: "Edge transformed our entire business process. Their team's expertise and dedication resulted in a 40% increase in our operational efficiency. The solution they built is robust, scalable, and exactly what we needed.",
+      text: "Edge transformed our entire business process. Their team&apos;s expertise and dedication resulted in a 40% increase in our operational efficiency. The solution they built is robust, scalable, and exactly what we needed.",
       avatar: "SM"
     },
     {
@@ -72,7 +72,7 @@ const Testimonials = () => {
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Discover what our clients say about working with Edge and the results 
-            they've achieved through our partnership.
+            they&apos;ve achieved through our partnership.
           </p>
         </div>
       </section>
@@ -100,7 +100,7 @@ const Testimonials = () => {
           <div className="text-center mb-16">
             <h2 className="font-display text-4xl font-bold mb-4">What Our Clients Say</h2>
             <p className="text-xl text-muted-foreground">
-              Real feedback from real clients who've experienced the Edge difference
+              Real feedback from real clients who&apos;ve experienced the Edge difference
             </p>
           </div>
 
@@ -145,9 +145,9 @@ const Testimonials = () => {
             <CardContent className="p-12 text-center">
               <Quote className="w-12 h-12 text-primary mx-auto mb-6" />
               <blockquote className="text-2xl md:text-3xl font-light mb-8 leading-relaxed text-foreground">
-                "Edge didn't just deliver a solution; they became a true partner in our growth. 
+                "Edge didn&apos;t just deliver a solution; they became a true partner in our growth. 
                 Their innovative approach and unwavering commitment to excellence set them apart 
-                in the industry. We couldn't be happier with the results."
+                in the industry. We couldn&apos;t be happier with the results."
               </blockquote>
               <div className="flex items-center justify-center space-x-4">
                 <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-white font-bold text-lg">

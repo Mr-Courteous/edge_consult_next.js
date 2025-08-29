@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Layout from "@/components/Layout";
-import baseUrl from '@/lib/config';
+// import baseUrl from '@/lib/config'; // Unused import removed
 
 const Jobs = () => {
   const jobOpenings = [
@@ -102,8 +102,8 @@ const Jobs = () => {
             Join Team <span className="gradient-text">Edge</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Be part of a dynamic team that's shaping the future of technology. 
-            We're looking for passionate individuals to help us build amazing solutions.
+            Be part of a dynamic team that&apos;s shaping the future of technology. 
+            We&apos;re looking for passionate individuals to help us build amazing solutions.
           </p>
         </div>
       </section>
@@ -120,7 +120,7 @@ const Jobs = () => {
                 that values creativity, collaboration, and continuous learning.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                We're building the future of business technology, and we want you to be 
+                We&apos;re building the future of business technology, and we want you to be 
                 part of that journey. From cutting-edge projects to a supportive culture, 
                 Edge offers everything you need to advance your career.
               </p>
@@ -242,11 +242,11 @@ const Jobs = () => {
       <section className="section-padding bg-gradient-hero text-white">
         <div className="max-w-4xl mx-auto container-padding text-center">
           <h2 className="font-display text-4xl font-bold mb-6">
-            Don't See the Perfect Role?
+            Don&apos;t See the Perfect Role?
           </h2>
           <p className="text-xl mb-8 text-white/90">
-            We're always looking for talented individuals. Send us your resume and 
-            let us know how you'd like to contribute to Edge's mission.
+            We&apos;re always looking for talented individuals. Send us your resume and 
+            let us know how you&apos;d like to contribute to Edge&apos;s mission.
           </p>
           <Button size="lg" className="bg-white text-primary hover:bg-white/90 px-8 py-4 text-lg">
             Send Your Resume

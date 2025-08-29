@@ -1,9 +1,9 @@
-'use client'; // Add this line at the top
+'use client'; 
 import { MessageCircle, FileText, Cog, Rocket, CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
-import baseUrl from '@/lib/config';
+// import baseUrl from '@/lib/config'; // This import is not used and should be removed
 
 const HowItWorks = () => {
   const steps = [
@@ -190,7 +190,7 @@ const HowItWorks = () => {
             Ready to Start Your Project?
           </h2>
           <p className="text-xl mb-8 text-white/90">
-            Let's schedule a consultation to discuss your needs and how we can help
+            Let&apos;s schedule a consultation to discuss your needs and how we can help
           </p>
           <Button size="lg" className="bg-white text-primary hover:bg-white/90 px-8 py-4 text-lg">
             Schedule Free Consultation

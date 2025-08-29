@@ -59,7 +59,7 @@ export default function About() {
               About <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-violet-400 to-indigo-400">Edge</span>
             </h1>
             <p className="font-inter text-lg md:text-2xl mb-6 text-white/90 leading-relaxed font-light drop-shadow">
-              We're passionate about helping businesses unlock their full potential
+              We&apos;re passionate about helping businesses unlock their full potential
               through innovative technology and strategic solutions.
             </p>
           </div>
@@ -80,9 +80,9 @@ export default function About() {
                 deserves access to world-class tools and expertise.
               </p>
               <p className="font-inter text-lg text-violet-700/80 leading-relaxed font-light">
-                Since our founding, we've been committed to delivering exceptional value 
+                Since our founding, we&apos;ve been committed to delivering exceptional value 
                 through personalized service, innovative solutions, and unwavering dedication 
-                to our clients' success.
+                to our clients&apos; success.
               </p>
             </div>
             <div className="space-y-8">
@@ -110,7 +110,7 @@ export default function About() {
               Meet Our Team
             </h2>
             <p className="font-inter text-xl text-violet-700/80 font-light">
-              The brilliant minds behind Edge's success
+              The brilliant minds behind Edge&apos;s success
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">

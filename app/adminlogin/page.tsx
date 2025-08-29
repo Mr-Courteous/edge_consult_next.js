@@ -1,16 +1,16 @@
 'use client'; 
 
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Changed from "react-router-dom"
-import Link from "next/link"; // Changed from "react-router-dom"
-import toast from 'react-hot-toast'; // Changed to React Hot Toast
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import toast from 'react-hot-toast';
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Layout from "@/components/Layout";
-import baseURL from '@/lib/config'; // Renamed to match the config file
+import baseURL from '@/lib/config';
 
 
 const AdminLogin = () => {
@@ -20,15 +20,14 @@ const AdminLogin = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter(); // Initialize Next.js useRouter hook
-  // Removed: const { toast } = useToast(); // No longer needed with react-hot-toast
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${baseURL}/login`, { // Using baseURL
+      const response = await fetch(`${baseURL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,20 +38,18 @@ const AdminLogin = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Store token and user info in localStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         
-        toast.success(`Welcome back, ${data.user.name}!`); // Updated toast call
+        toast.success(`Welcome back, ${data.user.name}!`);
         
-        // Corrected navigation path to go to /admindashboard
-        router.push('/admindashboard'); // Changed navigate to router.push
+        router.push('/admindashboard');
       } else {
-        toast.error(data.message || "Invalid credentials"); // Updated toast call
+        toast.error(data.message || "Invalid credentials");
       }
     } catch (error) {
-      console.error("Login error:", error); // Log the actual error for debugging
-      toast.error("Failed to connect to server"); // Updated toast call
+      console.error("Login error:", error);
+      toast.error("Failed to connect to server");
     } finally {
       setIsLoading(false);
     }
@@ -145,9 +142,9 @@ const AdminLogin = () => {
 
               <div className="mt-6 text-center">
                 <p className="text-sm text-muted-foreground">
-                  Don't have an admin account?{" "}
+                  Don&apos;t have an admin account?{" "}
                   <Link
-                    href="/adminregister" // Changed 'to' to 'href' and path to /adminregister
+                    href="/adminregister"
                     className="font-medium text-primary hover:text-primary/80"
                   >
                     Register here
