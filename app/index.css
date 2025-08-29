@@ -1,0 +1,58 @@
+/* Example: styles/globals.css */
+
+/* Base Styles for the entire page */
+body {
+  /* This ensures the body takes up the full viewport height */
+  min-height: 100vh;
+  /* Removes default browser margin and padding */
+  margin: 0;
+  padding: 0;
+  /* Sets the primary font for body text */
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  /* Smoothes out font rendering on different browsers */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography styles for headings */
+h1, h2, h3, h4, h5, h6 {
+  /* Sets the font for all headings */
+  font-family: var(--font-orbitron), system-ui, -apple-system, sans-serif;
+}
+
+
+
+/* Utility class for adding consistent section padding */
+.section-padding {
+  padding: 4rem 0;
+}
+
+/* Utility class for consistent container horizontal padding */
+.container-padding {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Creates a text with a gradient background, making the text color transparent */
+.gradient-text {
+  background-image: linear-gradient(to right, #ff7e5f, #feb47b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; /* Fallback for older browsers */
+}
+
+/* Applies a gradient background to a block element */
+.bg-gradient-hero {
+  background: linear-gradient(to bottom right, #4a00e0, #8e2de2);
+}
+
+/* Adds a hover effect that lifts an element and adds a shadow */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}

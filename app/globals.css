@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/*
+* The following are custom global styles that will be applied to your entire Next.js app.
+* They are placed after the Tailwind import so they can override default Tailwind styles if needed.
+*/
+
+/* Styles for the body, ensuring a full-page layout without unwanted margins or padding. */
+body {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Sets a consistent font family for all heading elements. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-orbitron), system-ui, -apple-system, sans-serif;
+}
