@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
 import toast from 'react-hot-toast';
 import Layout from "@/components/Layout";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import baseURL from '@/lib/config';
+import DOMPurify from 'dompurify';
 
 interface Post {
   _id: string;
@@ -23,7 +23,6 @@ interface Post {
   createdAt: string;
 }
 
-// Define the interface for a comment
 interface Comment {
   _id: string;
   content: string;
@@ -31,75 +30,52 @@ interface Comment {
   createdAt: string;
 }
 
-const PostDetailClient = () => {
-  const params = useParams();
-  const id = params.id as string;
+interface PostDetailClientProps {
+  post: Post | null;
+}
 
-  const [post, setPost] = useState<Post | null>(null);
-  const [comments, setComments] = useState<Comment[]>([]); // Use the Comment interface
-  const [isLoading, setIsLoading] = useState(true);
+const PostDetailClient = ({ post }: PostDetailClientProps) => {
+  const [comments, setComments] = useState<Comment[]>([]);
   const [commentContent, setCommentContent] = useState('');
   const [authorName, setAuthorName] = useState('');
   const [authorEmail, setAuthorEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Use post._id from props instead of useParams
+  const postId = post?._id;
 
+  // Fetch comments only after the post is available
   useEffect(() => {
-    if (!id) {
-      setIsLoading(false);
-      return;
-    }
-    const fetchPost = async () => {
-      try {
-        const res = await fetch(`${baseURL}/posts/${id}`);
-        if (!res.ok) {
-          if (res.status === 404) setPost(null);
-          throw new Error(`Failed to fetch post: ${res.statusText}`);
-        }
-        const data = await res.json();
-        setPost(data);
-      } catch (err) {
-        console.error("Error fetching post:", err);
-        toast.error("Could not load post. It might not exist.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchPost();
-  }, [id]);
+    if (!postId) return;
 
-  useEffect(() => {
-    if (!id) return;
     const fetchComments = async () => {
       try {
-        const res = await fetch(`${baseURL}/posts/${id}/comments`);
+        const res = await fetch(`${baseURL}/posts/${postId}/comments`);
         if (!res.ok) {
-          throw new Error('Failed to fetch comments with status: ' + res.status);
+          throw new Error('Failed to fetch comments.');
         }
-        const data: Comment[] = await res.json(); // Explicitly type the data
+        const data: Comment[] = await res.json();
         setComments(data);
       } catch (err) {
-        // Do not log a console error here as it might be expected (e.g., no comments found)
+        console.error("Error fetching comments:", err);
       }
     };
+
     fetchComments();
     const intervalId = setInterval(fetchComments, 5000);
     return () => clearInterval(intervalId);
-  }, [id]);
+  }, [postId]);
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!commentContent.trim()) {
-      toast.error("Comment cannot be empty.");
-      return;
-    }
-    if (!authorName.trim() && !authorEmail.trim()) {
-      toast.error("Name or email is required.");
+    if (!commentContent.trim() || !postId) {
+      toast.error("Comment cannot be empty or post ID is missing.");
       return;
     }
     setIsSubmitting(true);
     try {
       const body = { content: commentContent, author_info: { fullName: authorName, email: authorEmail } };
-      const res = await fetch(`${baseURL}/${id}`, {
+      const res = await fetch(`${baseURL}/${postId}/comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -109,9 +85,10 @@ const PostDetailClient = () => {
       setAuthorName('');
       setAuthorEmail('');
       toast.success("Comment added successfully!");
-      const updatedCommentsRes = await fetch(`${baseURL}/posts/${id}/comments`);
+      // Re-fetch comments to show the new one
+      const updatedCommentsRes = await fetch(`${baseURL}/posts/${postId}/comments`);
       if (updatedCommentsRes.ok) {
-        const updatedCommentsData: Comment[] = await updatedCommentsRes.json(); // Explicitly type the data
+        const updatedCommentsData: Comment[] = await updatedCommentsRes.json();
         setComments(updatedCommentsData);
       }
     } catch (err) {
@@ -122,8 +99,13 @@ const PostDetailClient = () => {
     }
   };
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center font-orbitron text-xl text-violet-700">Loading post...</div>;
-  if (!post) return <div className="min-h-screen flex items-center justify-center font-orbitron text-xl text-fuchsia-700">Post not found.</div>;
+  // The loading and not found states are now handled here
+  if (!post) {
+    return <div className="min-h-screen flex items-center justify-center font-orbitron text-xl text-fuchsia-700">Post not found.</div>;
+  }
+
+  // Sanitize the HTML from the body before rendering
+  const sanitizedHtml = DOMPurify.sanitize(post.body);
 
   return (
     <Layout>
@@ -146,7 +128,10 @@ const PostDetailClient = () => {
                 onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = "https://placehold.co/600x400/CCCCCC/333333?text=Image+Error"; }}
               />
             )}
-            <div className="font-inter whitespace-pre-wrap text-lg leading-relaxed text-violet-800 mb-8">{post.body}</div>
+            <div
+              className="font-inter text-lg leading-relaxed text-violet-800 mb-8"
+              dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+            />
 
             <hr className="my-8 border-violet-200" />
             <h2 className="font-orbitron text-2xl md:text-3xl font-bold mb-4 text-violet-900 drop-shadow">Comments ({comments.length})</h2>
@@ -166,7 +151,7 @@ const PostDetailClient = () => {
               {comments.length > 0 ? comments.map(c => (
                 <Card key={c._id} className="bg-gradient-to-r from-violet-100 via-fuchsia-50 to-indigo-100 shadow rounded-lg">
                   <CardContent className="pt-6 font-inter">
-                    <p className="font-orbitron font-semibold text-violet-800">{c.author?.fullName || c.author_info?.fullName || 'Anonymous User'}</p>
+                    <p className="font-orbitron font-semibold text-violet-800">{c.author_info?.fullName || 'Anonymous User'}</p>
                     <p className="text-xs text-violet-700/80">{new Date(c.createdAt).toLocaleDateString()}</p>
                     <p className="mt-2 text-base text-violet-900">{c.content}</p>
                   </CardContent>
