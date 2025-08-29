@@ -70,7 +70,7 @@ const Navbar = () => {
             { name: "Blog", path: "/blog" },
         ];
         if (isAdmin) {
-            return [...baseItems, { name: "Dashboard", path: "/admin/dashboard" }];
+            return [...baseItems, { name: "Dashboard", path: "/admindashboard" }];
         }
         return baseItems;
     };
@@ -115,7 +115,7 @@ const Navbar = () => {
                     <div className="hidden lg:flex items-center gap-3">
                         {isAdmin ? (
                             <>
-                                <Link href="/admin/dashboard">
+                                <Link href="/admindashboard">
                                     <Button
                                         variant="outline"
                                         size="sm"
@@ -195,7 +195,7 @@ const Navbar = () => {
                         <div className="border-t border-gray-100 pt-4 space-y-2">
                             {isAdmin ? (
                                 <>
-                                    <Link href="/admin/dashboard" onClick={() => setIsOpen(false)}>
+                                    <Link href="/admindashboard" onClick={() => setIsOpen(false)}>
                                         <Button
                                             variant="outline"
                                             className="w-full rounded-lg border-blue-500 text-blue-600 hover:bg-blue-50"

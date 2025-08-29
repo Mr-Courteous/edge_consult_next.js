@@ -1,15 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback } from "react";
-import dynamic from "next/dynamic"; // ⬅️ for client-only editor
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 import { PlusCircle, FileText, Users, LogOut, Upload, MessageCircle, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// ⛔️ Remove Textarea import because we’re using Tiptap now
-// import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
@@ -25,11 +23,28 @@ interface User {
   name: string;
 }
 
+// ⬅️ ADDED: Define the interface for your dashboard data
+interface DashboardData {
+    totalPosts: number;
+    users: { name: string; email: string }[]; // Example type for users
+}
+
+// ⬅️ ADDED: Define the interface for your metrics data
+interface MetricsData {
+    postsWithMostComments: Array<{
+        commentCount: number;
+    }>;
+    postsWithMostLikes: Array<{
+        likeCount: number;
+    }>;
+}
+
 const AdminDashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [dashboardData, setDashboardData] = useState<any>(null);
-  const [metricsData, setMetricsData] = useState<any>(null);
+  // ⬅️ UPDATED: Now using the correct interfaces instead of 'any'
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [metricsData, setMetricsData] = useState<MetricsData | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [currentTag, setCurrentTag] = useState("");
@@ -77,8 +92,9 @@ const AdminDashboard = () => {
         return;
       }
 
-      const dashboardJson = await dashboardResponse.json();
-      const metricsJson = await metricsResponse.json();
+      // ⬅️ UPDATED: Explicitly type the JSON responses
+      const dashboardJson: DashboardData = await dashboardResponse.json();
+      const metricsJson: MetricsData = await metricsResponse.json();
 
       setDashboardData(dashboardJson);
       setMetricsData(metricsJson);
@@ -282,7 +298,7 @@ const AdminDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="font-orbitron text-2xl font-extrabold text-violet-800">
-                  {metricsData?.postsWithMostComments?.reduce((total: number, post: any) => total + post.commentCount, 0) ?? '--'}
+                  {metricsData?.postsWithMostComments?.reduce((total, post) => total + post.commentCount, 0) ?? '--'}
                 </div>
                 <p className="font-inter text-xs text-violet-700/80">All comments received</p>
               </CardContent>
@@ -294,7 +310,7 @@ const AdminDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="font-orbitron text-2xl font-extrabold text-violet-800">
-                  {metricsData?.postsWithMostLikes?.reduce((total: number, post: any) => total + post.likeCount, 0) ?? '--'}
+                  {metricsData?.postsWithMostLikes?.reduce((total, post) => total + post.likeCount, 0) ?? '--'}
                 </div>
                 <p className="font-inter text-xs text-violet-700/80">All likes received</p>
               </CardContent>
