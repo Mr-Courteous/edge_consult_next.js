@@ -9,6 +9,12 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input"; 
 import baseUrl from '@/lib/config';
 
+// Helper function to strip HTML tags from a string
+const stripHtml = (htmlString: string) => {
+  // Use a regular expression to find and replace anything inside '<' and '>'
+  return htmlString.replace(/<[^>]*>?/gm, '');
+};
+
 const Blog = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -60,6 +66,8 @@ const Blog = () => {
                 </div>
             </section>
             
+            ---
+
             {/* Blog Posts Grid */}
             <section className="py-16 bg-gradient-to-b from-white via-violet-50 to-fuchsia-50">
                 <div className="max-w-7xl mx-auto px-4 md:px-10">
@@ -109,7 +117,8 @@ const Blog = () => {
                                         </h3>
                                         
                                         <p className="font-inter text-violet-700/80 text-sm line-clamp-3 mb-4">
-                                            {post.body.substring(0, 150)}...
+                                            {/* Updated line to display stripped HTML content */}
+                                            {stripHtml(post.body).substring(0, 150)}...
                                         </p>
                                         
                                         {post.tags && post.tags.length > 0 && (
@@ -151,6 +160,8 @@ const Blog = () => {
                 </div>
             </section>
 
+            ---
+            
             {/* Newsletter Section */}
             <section className="py-16 bg-gradient-to-r from-violet-100 via-fuchsia-50 to-indigo-100 rounded-xl shadow-inner my-16">
                 <div className="max-w-3xl mx-auto text-center px-4 md:px-10">
