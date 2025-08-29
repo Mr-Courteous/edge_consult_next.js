@@ -23,12 +23,20 @@ interface Post {
   createdAt: string;
 }
 
+// Define the interface for a comment
+interface Comment {
+  _id: string;
+  content: string;
+  author_info: { fullName?: string; email?: string };
+  createdAt: string;
+}
+
 const PostDetailClient = () => {
   const params = useParams();
   const id = params.id as string;
 
   const [post, setPost] = useState<Post | null>(null);
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]); // Use the Comment interface
   const [isLoading, setIsLoading] = useState(true);
   const [commentContent, setCommentContent] = useState('');
   const [authorName, setAuthorName] = useState('');
@@ -67,7 +75,7 @@ const PostDetailClient = () => {
         if (!res.ok) {
           throw new Error('Failed to fetch comments with status: ' + res.status);
         }
-        const data = await res.json();
+        const data: Comment[] = await res.json(); // Explicitly type the data
         setComments(data);
       } catch (err) {
         // Do not log a console error here as it might be expected (e.g., no comments found)
@@ -103,7 +111,7 @@ const PostDetailClient = () => {
       toast.success("Comment added successfully!");
       const updatedCommentsRes = await fetch(`${baseURL}/posts/${id}/comments`);
       if (updatedCommentsRes.ok) {
-        const updatedCommentsData = await updatedCommentsRes.json();
+        const updatedCommentsData: Comment[] = await updatedCommentsRes.json(); // Explicitly type the data
         setComments(updatedCommentsData);
       }
     } catch (err) {
