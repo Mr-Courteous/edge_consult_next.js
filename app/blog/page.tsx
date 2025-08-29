@@ -1,5 +1,5 @@
 'use client';
-import { Calendar, User, Tag, ArrowRight, Clock, MessageCircle } from "lucide-react";
+import { Calendar, User, Tag, ArrowRight, Clock, MessageCircle, Twitter, Facebook, Linkedin, Copy, Share2, Check } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,17 +8,41 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input"; 
 import baseUrl from '@/lib/config';
+import toast from 'react-hot-toast'; 
 
 // Helper function to strip HTML tags from a string
 const stripHtml = (htmlString: string) => {
-  // Use a regular expression to find and replace anything inside '<' and '>'
   return htmlString.replace(/<[^>]*>?/gm, '');
+};
+
+// Reusable component for copying to clipboard
+const CopyToClipboard = ({ textToCopy, className }) => {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(textToCopy);
+        setCopied(true);
+        toast.success('Link copied!');
+        setTimeout(() => setCopied(false), 2000); 
+    };
+
+    return (
+        <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleCopy}
+            className={className}
+        >
+            {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} />}
+        </Button>
+    );
 };
 
 const Blog = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState("All");
+    const [searchTerm, setSearchTerm] = useState("");
 
     const router = useRouter();
 
@@ -41,12 +65,67 @@ const Blog = () => {
             setLoading(false);
         }
     };
+    
+    // Combine filtering and search logic
+    const filteredAndSearchedPosts = posts.filter(post => {
+      const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
+      const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                            stripHtml(post.body).toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
 
-    const filteredPosts = selectedCategory === "All"
-        ? posts
-        : posts.filter(post => post.category === selectedCategory);
+    const categories = ["All", "news", "nysc", "scholarships"];
 
-    const categories = ["All", "news", "nysc", "scholarships"]; 
+    // Social share component
+    const SocialShareButtons = ({ title, url }) => {
+        const encodedUrl = encodeURIComponent(url);
+        const encodedTitle = encodeURIComponent(title);
+        
+        return (
+            <div className="flex items-center gap-4">
+                <a 
+                    href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on Twitter"
+                    className="p-1 rounded-full text-violet-500 hover:text-sky-400 hover:bg-violet-100 transition-colors duration-200"
+                >
+                    <Twitter size={20} />
+                </a>
+                <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on Facebook"
+                    className="p-1 rounded-full text-violet-500 hover:text-blue-600 hover:bg-violet-100 transition-colors duration-200"
+                >
+                    <Facebook size={20} />
+                </a>
+                <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on LinkedIn"
+                    className="p-1 rounded-full text-violet-500 hover:text-blue-700 hover:bg-violet-100 transition-colors duration-200"
+                >
+                    <Linkedin size={20} />
+                </a>
+                <a
+                    href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on WhatsApp"
+                    className="p-1 rounded-full text-violet-500 hover:text-green-500 hover:bg-violet-100 transition-colors duration-200"
+                >
+                    <MessageCircle size={20} />
+                </a>
+                <CopyToClipboard 
+                    textToCopy={url}
+                    className="p-1 rounded-full text-violet-500 hover:text-fuchsia-500 hover:bg-violet-100 transition-colors duration-200"
+                />
+            </div>
+        );
+    };
 
     return (
         <Layout>
@@ -67,7 +146,7 @@ const Blog = () => {
             </section>
             
             ---
-
+            
             {/* Blog Posts Grid */}
             <section className="py-16 bg-gradient-to-b from-white via-violet-50 to-fuchsia-50">
                 <div className="max-w-7xl mx-auto px-4 md:px-10">
@@ -82,13 +161,13 @@ const Blog = () => {
                         <div className="text-center py-12">
                             <p className="font-orbitron text-violet-700">Loading posts...</p>
                         </div>
-                    ) : filteredPosts.length === 0 ? (
+                    ) : filteredAndSearchedPosts.length === 0 ? (
                         <div className="text-center py-12">
                             <p className="font-orbitron text-violet-700">No posts available yet.</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                            {filteredPosts.map((post) => ( 
+                            {filteredAndSearchedPosts.map((post) => ( 
                                 <Card key={post._id} className="overflow-hidden border-none bg-gradient-to-br from-white via-violet-100 to-fuchsia-100 shadow-xl rounded-2xl hover:scale-105 transition-all duration-200">
                                     <div className="aspect-video bg-gradient-to-br from-violet-200 via-fuchsia-100 to-indigo-100 flex items-center justify-center">
                                         {post.image_path ? (
@@ -117,7 +196,6 @@ const Blog = () => {
                                         </h3>
                                         
                                         <p className="font-inter text-violet-700/80 text-sm line-clamp-3 mb-4">
-                                            {/* Updated line to display stripped HTML content */}
                                             {stripHtml(post.body).substring(0, 150)}...
                                         </p>
                                         
@@ -144,14 +222,25 @@ const Blog = () => {
                                                 <span>{post.commentCount} Comments</span>
                                             </div>
                                         </div>
-                                        <Button
-                                            variant="ghost"
-                                            className="w-full mt-4 py-3 font-orbitron text-violet-700 hover:text-fuchsia-700 hover:bg-violet-100 transition-colors duration-200"
-                                            onClick={() => router.push(`/post/${post._id}`)}
-                                        >
-                                            Read Full Article
-                                            <ArrowRight className="w-4 h-4 ml-2" />
-                                        </Button>
+                                        {/* Updated layout to place components on separate lines */}
+                                        <div className="flex items-center gap-2 mt-4 mb-4">
+                                            <Share2 size={20} className="text-violet-500" />
+                                            <SocialShareButtons
+                                                title={post.title}
+                                                url={`${window.location.origin}/post/${post._id}`}
+                                            />
+                                        </div>
+                                        <div>
+                                            {/* Read More Button now on its own line */}
+                                            <Button
+                                                variant="ghost"
+                                                className="w-full py-3 font-orbitron text-violet-700 hover:text-fuchsia-700 hover:bg-violet-100 transition-colors duration-200"
+                                                onClick={() => router.push(`/post/${post._id}`)}
+                                            >
+                                                Read Full Article
+                                                <ArrowRight className="w-4 h-4 ml-2" />
+                                            </Button>
+                                        </div>
                                     </CardContent>
                                 </Card>
                             ))}
@@ -159,7 +248,7 @@ const Blog = () => {
                     )}
                 </div>
             </section>
-
+            
             ---
             
             {/* Newsletter Section */}

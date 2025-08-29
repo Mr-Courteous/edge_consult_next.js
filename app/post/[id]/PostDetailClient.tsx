@@ -9,8 +9,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import baseURL from '@/lib/config';
-import DOMPurify from 'dompurify';
+import { Calendar, User, Tag, Twitter, Facebook, Linkedin, Copy, Share2, Check, MessageCircle } from "lucide-react";
 
+
+// Define the Post interface
 interface Post {
   _id: string;
   title: string;
@@ -21,8 +23,10 @@ interface Post {
   tags?: string[];
   author?: { username: string };
   createdAt: string;
+  commentCount?: number;
 }
 
+// Define the Comment interface
 interface Comment {
   _id: string;
   content: string;
@@ -34,15 +38,106 @@ interface PostDetailClientProps {
   post: Post | null;
 }
 
+// Reusable component for copying to clipboard
+const CopyToClipboard = ({ textToCopy, className }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(textToCopy);
+    setCopied(true);
+    toast.success('Link copied!');
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={handleCopy}
+      className={className}
+    >
+      {copied ? <Check size={16} className="text-green-500" /> : <Copy size={16} />}
+    </Button>
+  );
+};
+
+// Social share component
+const SocialShareButtons = ({ title, url }) => {
+  const encodedUrl = encodeURIComponent(url);
+  const encodedTitle = encodeURIComponent(title);
+
+  return (
+    <div className="flex items-center gap-2">
+      <Share2 size={20} className="text-violet-500" />
+      <a
+        href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Share on Twitter"
+        className="p-1 rounded-full text-violet-500 hover:text-sky-400 hover:bg-violet-100 transition-colors duration-200"
+      >
+        <Twitter size={20} />
+      </a>
+      <a
+        href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Share on Facebook"
+        className="p-1 rounded-full text-violet-500 hover:text-blue-600 hover:bg-violet-100 transition-colors duration-200"
+      >
+        <Facebook size={20} />
+      </a>
+      <a
+        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Share on LinkedIn"
+        className="p-1 rounded-full text-violet-500 hover:text-blue-700 hover:bg-violet-100 transition-colors duration-200"
+      >
+        <Linkedin size={20} />
+      </a>
+      <a
+        href={`https://wa.me/?text=${encodedTitle}%20${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Share on WhatsApp"
+        className="p-1 rounded-full text-violet-500 hover:text-green-500 hover:bg-violet-100 transition-colors duration-200"
+      >
+        <MessageCircle size={20} />
+      </a>
+      <CopyToClipboard
+        textToCopy={url}
+        className="p-1 rounded-full text-violet-500 hover:text-fuchsia-500 hover:bg-violet-100 transition-colors duration-200"
+      />
+    </div>
+  );
+};
+
 const PostDetailClient = ({ post }: PostDetailClientProps) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentContent, setCommentContent] = useState('');
   const [authorName, setAuthorName] = useState('');
   const [authorEmail, setAuthorEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // Use post._id from props instead of useParams
+  const [sanitizedHtml, setSanitizedHtml] = useState('');
+
   const postId = post?._id;
+
+  // Dynamically import and sanitize on the client side
+  useEffect(() => {
+    if (post && post.body) {
+      // Dynamic import to prevent server-side issues
+      import('dompurify').then(module => {
+        // Access the default export, which is the sanitize function
+        const dompurify = module.default;
+        setSanitizedHtml(dompurify.sanitize(post.body));
+      }).catch(err => {
+        console.error("Failed to load DOMPurify:", err);
+        // Fallback to raw HTML if sanitization fails
+        setSanitizedHtml(post.body);
+      });
+    }
+  }, [post]);
 
   // Fetch comments only after the post is available
   useEffect(() => {
@@ -75,7 +170,7 @@ const PostDetailClient = ({ post }: PostDetailClientProps) => {
     setIsSubmitting(true);
     try {
       const body = { content: commentContent, author_info: { fullName: authorName, email: authorEmail } };
-      const res = await fetch(`${baseURL}/${postId}/comments`, {
+      const res = await fetch(`${baseURL}/${postId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -99,13 +194,12 @@ const PostDetailClient = ({ post }: PostDetailClientProps) => {
     }
   };
 
-  // The loading and not found states are now handled here
   if (!post) {
     return <div className="min-h-screen flex items-center justify-center font-orbitron text-xl text-fuchsia-700">Post not found.</div>;
   }
 
-  // Sanitize the HTML from the body before rendering
-  const sanitizedHtml = DOMPurify.sanitize(post.body);
+  // The `postUrl` can be calculated safely as it doesn't depend on DOMPurify
+  const postUrl = typeof window !== 'undefined' ? `${window.location.origin}/posts/${post._id}` : `${baseURL}/posts/${post._id}`;
 
   return (
     <Layout>
@@ -118,7 +212,12 @@ const PostDetailClient = ({ post }: PostDetailClientProps) => {
             </div>
             <h1 className="font-orbitron text-3xl md:text-4xl font-extrabold text-violet-900 drop-shadow mb-3">{post.title}</h1>
             <p className="font-inter text-sm text-violet-700/80">By {post.author?.username || 'Anonymous'} | {new Date(post.createdAt).toLocaleDateString()}</p>
+
+            <div className="flex justify-start pt-4">
+              <SocialShareButtons title={post.title} url={postUrl} />
+            </div>
           </CardHeader>
+
           <CardContent>
             {post.image_path && (
               <img
@@ -133,7 +232,12 @@ const PostDetailClient = ({ post }: PostDetailClientProps) => {
               dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
             />
 
+            <div className="flex justify-start my-8">
+              <SocialShareButtons title={post.title} url={postUrl} />
+            </div>
+
             <hr className="my-8 border-violet-200" />
+
             <h2 className="font-orbitron text-2xl md:text-3xl font-bold mb-4 text-violet-900 drop-shadow">Comments ({comments.length})</h2>
 
             <form onSubmit={handleCommentSubmit} className="space-y-4 mb-10">
