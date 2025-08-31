@@ -1,18 +1,19 @@
 'use client';
-import { Calendar, User, Tag, ArrowRight, Clock, MessageCircle, Twitter, Facebook, Linkedin, Copy, Share2, Check } from "lucide-react";
+import { Calendar, User, Tag, ArrowRight, Clock, MessageCircle, Twitter, Facebook, Linkedin, Copy, Share2, Check, Trash2, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Layout from "@/components/Layout";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input"; 
+import { Input } from "@/components/ui/input";
 import baseUrl from '@/lib/config';
-import toast from 'react-hot-toast'; 
+import toast from 'react-hot-toast';
+import ConfirmationModal from "@/components/ConfirmationModal";
 
 // Helper function to strip HTML tags from a string
-const stripHtml = (htmlString: string) => {
-  return htmlString.replace(/<[^>]*>?/gm, '');
+const stripHtml = (htmlString) => {
+    return htmlString.replace(/<[^>]*>?/gm, '');
 };
 
 // Reusable component for copying to clipboard
@@ -23,7 +24,7 @@ const CopyToClipboard = ({ textToCopy, className }) => {
         navigator.clipboard.writeText(textToCopy);
         setCopied(true);
         toast.success('Link copied!');
-        setTimeout(() => setCopied(false), 2000); 
+        setTimeout(() => setCopied(false), 2000);
     };
 
     return (
@@ -43,10 +44,26 @@ const Blog = () => {
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [searchTerm, setSearchTerm] = useState("");
+    
+    // ➡️ NEW: State for user session, delete modal, and delete loading
+    const [user, setUser] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [postToDeleteId, setPostToDeleteId] = useState(null);
+    const [deleting, setDeleting] = useState(false); // 🆕 New loading state
 
     const router = useRouter();
 
     useEffect(() => {
+        const userData = localStorage.getItem('user');
+        if (userData) {
+            try {
+                const parsedUser = JSON.parse(userData);
+                setUser(parsedUser);
+            } catch (e) {
+                console.error("Failed to parse user data from localStorage", e);
+                localStorage.removeItem('user');
+            }
+        }
         fetchPosts();
     }, []);
 
@@ -65,25 +82,62 @@ const Blog = () => {
             setLoading(false);
         }
     };
-    
-    // Combine filtering and search logic
+
+    // ➡️ NEW: Handle post deletion with loading state
+    const handleDeletePost = async () => {
+        if (!postToDeleteId || deleting) return; // Prevent multiple clicks
+        
+        setDeleting(true); // 🆕 Start loading state
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            toast.error("You must be logged in to delete posts.");
+            setShowDeleteModal(false);
+            setDeleting(false); // 🆕 Reset loading state
+            return;
+        }
+
+        try {
+            const response = await fetch(`${baseUrl}/posts/${postToDeleteId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` },
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.msg || "Failed to delete post.");
+            }
+
+            // Update UI by filtering out the deleted post
+            setPosts(posts.filter(post => post._id !== postToDeleteId));
+            toast.success("Post deleted successfully!");
+
+        } catch (error) {
+            console.error("Error deleting post:", error);
+            toast.error(error.message || "Failed to delete post. Check console for details.");
+        } finally {
+            setShowDeleteModal(false);
+            setPostToDeleteId(null);
+            setDeleting(false); // 🆕 End loading state
+        }
+    };
+
     const filteredAndSearchedPosts = posts.filter(post => {
-      const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
-      const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                            stripHtml(post.body).toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearch;
+        const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
+        const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            stripHtml(post.body).toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesCategory && matchesSearch;
     });
 
-    const categories = ["All", "news", "nysc", "scholarships"];
+    const categories = ["All", "news", "nysc", "scholarships", "jobs"];
 
-    // Social share component
     const SocialShareButtons = ({ title, url }) => {
         const encodedUrl = encodeURIComponent(url);
         const encodedTitle = encodeURIComponent(title);
-        
+
         return (
             <div className="flex items-center gap-4">
-                <a 
+                <a
                     href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -119,7 +173,7 @@ const Blog = () => {
                 >
                     <MessageCircle size={20} />
                 </a>
-                <CopyToClipboard 
+                <CopyToClipboard
                     textToCopy={url}
                     className="p-1 rounded-full text-violet-500 hover:text-fuchsia-500 hover:bg-violet-100 transition-colors duration-200"
                 />
@@ -129,7 +183,6 @@ const Blog = () => {
 
     return (
         <Layout>
-            {/* Category Filter */}
             <section className="py-4 bg-gradient-to-r from-violet-100 via-fuchsia-50 to-indigo-100 border-b border-t sticky top-0 z-20 shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 md:px-10 flex flex-wrap gap-3 justify-center">
                     {categories.map((category) => (
@@ -144,10 +197,9 @@ const Blog = () => {
                     ))}
                 </div>
             </section>
-            
+
             ---
-            
-            {/* Blog Posts Grid */}
+
             <section className="py-16 bg-gradient-to-b from-white via-violet-50 to-fuchsia-50">
                 <div className="max-w-7xl mx-auto px-4 md:px-10">
                     <div className="mb-10 text-center">
@@ -156,7 +208,16 @@ const Blog = () => {
                             Stay updated with our latest insights and industry analysis
                         </p>
                     </div>
-                    
+                    {/* Add a search bar */}
+                    <div className="flex justify-center mb-8">
+                        <Input
+                            type="text"
+                            placeholder="Search posts..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full max-w-md font-inter border-violet-200 focus:border-violet-500 transition-colors duration-200"
+                        />
+                    </div>
                     {loading ? (
                         <div className="text-center py-12">
                             <p className="font-orbitron text-violet-700">Loading posts...</p>
@@ -167,21 +228,21 @@ const Blog = () => {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                            {filteredAndSearchedPosts.map((post) => ( 
+                            {filteredAndSearchedPosts.map((post) => (
                                 <Card key={post._id} className="overflow-hidden border-none bg-gradient-to-br from-white via-violet-100 to-fuchsia-100 shadow-xl rounded-2xl hover:scale-105 transition-all duration-200">
                                     <div className="aspect-video bg-gradient-to-br from-violet-200 via-fuchsia-100 to-indigo-100 flex items-center justify-center">
                                         {post.image_path ? (
-                                            <img 
-                                                src={post.image_path} 
+                                            <img
+                                                src={post.image_path}
                                                 alt={post.title}
                                                 className="w-full h-full object-cover"
-                                                onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/600x400/CCCCCC/333333?text=Image+Error"; }}
+                                                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "https://placehold.co/600x400/CCCCCC/333333?text=Image+Error"; }}
                                             />
                                         ) : (
                                             <div className="text-3xl text-violet-200">📄</div>
                                         )}
                                     </div>
-                                    
+
                                     <CardHeader className="pb-4">
                                         <div className="flex items-center space-x-2 mb-3 text-sm text-violet-700/80">
                                             <Badge variant="secondary">{post.category.charAt(0).toUpperCase() + post.category.slice(1)}</Badge>
@@ -190,15 +251,15 @@ const Blog = () => {
                                                 <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                                             </div>
                                         </div>
-                                        
+
                                         <h3 className="font-orbitron text-lg font-bold line-clamp-2 mb-3 text-violet-800">
                                             {post.title}
                                         </h3>
-                                        
+
                                         <p className="font-inter text-violet-700/80 text-sm line-clamp-3 mb-4">
                                             {stripHtml(post.body).substring(0, 150)}...
                                         </p>
-                                        
+
                                         {post.tags && post.tags.length > 0 && (
                                             <div className="flex flex-wrap gap-2 mb-4">
                                                 {post.tags.slice(0, 2).map((tag, tagIndex) => (
@@ -210,7 +271,7 @@ const Blog = () => {
                                             </div>
                                         )}
                                     </CardHeader>
-                                    
+
                                     <CardContent className="pt-0">
                                         <div className="flex items-center justify-between mb-2">
                                             <div className="flex items-center space-x-2 text-sm text-violet-700/80">
@@ -222,16 +283,33 @@ const Blog = () => {
                                                 <span>{post.commentCount} Comments</span>
                                             </div>
                                         </div>
-                                        {/* Updated layout to place components on separate lines */}
                                         <div className="flex items-center gap-2 mt-4 mb-4">
                                             <Share2 size={20} className="text-violet-500" />
                                             <SocialShareButtons
                                                 title={post.title}
                                                 url={`${window.location.origin}/post/${post._id}`}
                                             />
+                                            {/* ➡️ NEW: Conditionally render the delete button */}
+                                            {user && user.role === 'admin' && (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="text-fuchsia-600 hover:bg-fuchsia-100 hover:text-fuchsia-700 transition-colors duration-200"
+                                                    onClick={() => {
+                                                        setPostToDeleteId(post._id);
+                                                        setShowDeleteModal(true);
+                                                    }}
+                                                    disabled={deleting} // 🆕 Disable the button while deleting
+                                                >
+                                                    {deleting && postToDeleteId === post._id ? ( // 🆕 Show a spinner for the post being deleted
+                                                        <Loader2 className="h-5 w-5 animate-spin" />
+                                                    ) : (
+                                                        <Trash2 className="h-5 w-5" />
+                                                    )}
+                                                </Button>
+                                            )}
                                         </div>
                                         <div>
-                                            {/* Read More Button now on its own line */}
                                             <Button
                                                 variant="ghost"
                                                 className="w-full py-3 font-orbitron text-violet-700 hover:text-fuchsia-700 hover:bg-violet-100 transition-colors duration-200"
@@ -248,10 +326,9 @@ const Blog = () => {
                     )}
                 </div>
             </section>
-            
+
             ---
-            
-            {/* Newsletter Section */}
+
             <section className="py-16 bg-gradient-to-r from-violet-100 via-fuchsia-50 to-indigo-100 rounded-xl shadow-inner my-16">
                 <div className="max-w-3xl mx-auto text-center px-4 md:px-10">
                     <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 text-violet-900 drop-shadow-lg">Stay Updated</h2>
@@ -266,6 +343,15 @@ const Blog = () => {
                     </div>
                 </div>
             </section>
+            
+            {/* ➡️ NEW: Confirmation Modal for deletion */}
+            <ConfirmationModal
+                isOpen={showDeleteModal}
+                onCancel={() => setShowDeleteModal(false)}
+                onConfirm={handleDeletePost}
+                message="Are you sure you want to delete this post? This action is permanent."
+                isLoading={deleting} // 🆕 Pass the deleting state to the modal
+            />
         </Layout>
     );
 };

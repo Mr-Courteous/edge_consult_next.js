@@ -66,8 +66,8 @@ const Navbar = () => {
             // { name: "Scholarships", path: "/scholarships" },
             // { name: "How It Works", path: "/how-it-works" },
             { name: "Testimonials", path: "/testimonials" },
-            { name: "Jobs", path: "/jobs" },
-            { name: "Blog", path: "/blog" },
+            // { name: "Jobs", path: "/jobs" },
+            { name: "Posts", path: "/blog" },
         ];
         if (isAdmin) {
             return [...baseItems, { name: "Dashboard", path: "/admindashboard" }];
