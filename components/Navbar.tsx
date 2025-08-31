@@ -55,7 +55,7 @@ const Navbar = () => {
         setIsLoggedIn(false);
         setIsAdmin(false);
         setIsOpen(false);
-        router.push('/admin-login');
+        router.push('/adminlogin');
     };
 
     const getNavItems = () => {
@@ -63,8 +63,8 @@ const Navbar = () => {
             { name: "Home", path: "/" },
             { name: "About Us", path: "/about" },
             { name: "Services", path: "/services" },
-            { name: "Scholarships", path: "/scholarships" },
-            { name: "How It Works", path: "/how-it-works" },
+            // { name: "Scholarships", path: "/scholarships" },
+            // { name: "How It Works", path: "/how-it-works" },
             { name: "Testimonials", path: "/testimonials" },
             { name: "Jobs", path: "/jobs" },
             { name: "Blog", path: "/blog" },

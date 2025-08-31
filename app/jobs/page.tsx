@@ -96,8 +96,8 @@ const Jobs = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-secondary">
-        <div className="max-w-7xl mx-auto container-padding text-center">
+      {/* <section className="section-padding bg-gradient-secondary"> */}
+        {/* <div className="max-w-7xl mx-auto container-padding text-center">
           <h1 className="font-display text-5xl md:text-6xl font-bold mb-6">
             Join Team <span className="gradient-text">Edge</span>
           </h1>
@@ -105,12 +105,12 @@ const Jobs = () => {
             Be part of a dynamic team that&apos;s shaping the future of technology. 
             We&apos;re looking for passionate individuals to help us build amazing solutions.
           </p>
-        </div>
-      </section>
+        </div> */}
+      {/* </section> */}
 
       {/* Company Culture */}
-      <section className="section-padding">
-        <div className="max-w-7xl mx-auto container-padding">
+      {/* <section className="section-padding"> */}
+        {/* <div className="max-w-7xl mx-auto container-padding">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="font-display text-4xl font-bold mb-6">Why Work at Edge?</h2>
@@ -139,8 +139,8 @@ const Jobs = () => {
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </div> */}
+      {/* </section> */}
 
       {/* Job Openings */}
       <section className="section-padding bg-muted/50">
