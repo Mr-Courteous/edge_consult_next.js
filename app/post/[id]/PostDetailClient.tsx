@@ -211,7 +211,17 @@ const PostDetailClient = ({ post }: PostDetailClientProps) => {
               {post.likeCount !== undefined && <span className="font-inter text-violet-700 font-bold">{post.likeCount} Likes</span>}
             </div>
             <h1 className="font-orbitron text-3xl md:text-4xl font-extrabold text-violet-900 drop-shadow mb-3">{post.title}</h1>
-            <p className="font-inter text-sm text-violet-700/80">By {post.author?.username || 'Anonymous'} | {new Date(post.createdAt).toLocaleDateString()}</p>
+            {/* <p className="font-inter text-sm text-violet-700/80">By {post.author?.username || 'Anonymous'} </p> */}
+            <p className="font-inter text-sm text-violet-700/80 flex items-center gap-2">
+              {new Date(post.createdAt).toLocaleDateString(undefined, {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true, // 12-hour format with AM/PM
+              })}
+            </p>
 
             <div className="flex justify-start pt-4">
               <SocialShareButtons title={post.title} url={postUrl} />
