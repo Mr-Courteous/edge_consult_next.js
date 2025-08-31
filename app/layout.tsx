@@ -3,37 +3,38 @@ import type { Metadata } from "next";
 import { Inter, Orbitron } from "next/font/google"; 
 
 // --- Global CSS Imports ---
-// These are the ONLY place global CSS files should be imported in Next.js App Router.
-import "./globals.css"; // Your main global CSS file, assumed to contain @tailwind directives
-import './App.css'; // Your additional global CSS file
-import './index.css'; // Your additional global CSS file
+import "./globals.css"; 
+import './App.css'; 
+import './index.css'; 
 
 // Import shared UI components
-import Navbar from "../components/Navbar"; // Path corrected assuming Navbar is in components/
-import Footer from "../components/Footer"; // Path corrected assuming Footer is in components/
-import { Toaster } from "react-hot-toast"; // For global toast notifications
+import Navbar from "../components/Navbar"; 
+import Footer from "../components/Footer"; 
+import { Toaster } from "react-hot-toast"; 
 
-// Configure your fonts with next/font/google
-// These will create CSS variables that can be used throughout your app.
+// Configure your fonts
 const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-inter", // Defines --font-inter CSS variable
-  display: "swap", // Ensures font is displayed quickly for better UX
+  variable: "--font-inter",
+  display: "swap",
 });
 
 const orbitron = Orbitron({
   subsets: ["latin"],
-  variable: "--font-orbitron", // Defines --font-orbitron CSS variable
+  variable: "--font-orbitron",
   display: "swap",
 });
 
-// Define global metadata for your application, used for SEO
+// Global metadata
 export const metadata: Metadata = {
-  title: "Edge - Modern Business Solutions", // Your application's title
-  description: "Bridging the gap between ambition and achievement through scholarships, career guidance, and life-changing opportunities worldwide.", // Your application's description
+  title: "Edge - Modern Business Solutions",
+  description: "Bridging the gap between ambition and achievement through scholarships, career guidance, and life-changing opportunities worldwide.",
+  icons: {
+    icon: "/edge.svg", // default favicon in public folder
+  }
 };
 
-// This is your RootLayout component, which wraps all pages in your Next.js app.
+// RootLayout component
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -41,21 +42,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Favicon setup */}
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        {/* You can also add Apple touch icon */}
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      </head>
       <body
-        // Apply font CSS variables and core global Tailwind classes for a sticky footer layout.
-        // `min-h-screen` ensures body takes at least full viewport height.
-        // `flex flex-col` enables flexbox for vertical stacking.
         className={`${inter.variable} ${orbitron.variable} antialiased min-h-screen flex flex-col`}
       >
-        <Navbar /> {/* Your global navigation bar */}
-        {/* The <main> element will hold your page-specific content. */}
-        {/* `flex-1` makes it grow to fill available space, pushing Footer to bottom. */}
-        {/* `pt-16` provides top padding, assuming your Navbar is fixed and ~64px tall. */}
+        <Navbar />
         <main className="flex-1 pt-16">
-          {children} {/* This is where the content of your individual pages (e.g., your Index component) will be rendered */}
+          {children}
         </main>
-        <Footer /> {/* Your global footer */}
-        <Toaster /> {/* React Hot Toast component for displaying notifications */}
+        <Footer />
+        <Toaster />
       </body>
     </html>
   );
