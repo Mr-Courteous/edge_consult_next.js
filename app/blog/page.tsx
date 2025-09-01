@@ -205,21 +205,67 @@ const Blog = () => {
                 <Card key={post._id} className="overflow-hidden border-none bg-gradient-to-br from-white via-violet-100 to-fuchsia-100 shadow-xl rounded-2xl hover:scale-105 transition-all duration-200">
                   <div className="aspect-video bg-gradient-to-br from-violet-200 via-fuchsia-100 to-indigo-100 flex items-center justify-center">
                     {post.image_path ? (
-                      <img src={post.image_path} alt={post.title} className="w-full h-full object-cover" onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = "https://placehold.co/600x400/CCCCCC/333333?text=Image+Error"; }} />
+                      <img
+                        src={post.image_path}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                        onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = "https://placehold.co/600x400/CCCCCC/333333?text=Image+Error"; }}
+                      />
                     ) : <div className="text-3xl text-violet-200">📄</div>}
                   </div>
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-2 mb-3 text-sm text-violet-700/80">
                       <Badge variant="secondary">{post.category.charAt(0).toUpperCase() + post.category.slice(1)}</Badge>
-                      <div className="flex items-center space-x-1"><Calendar className="w-3 h-3" /><span>{new Date(post.createdAt).toLocaleDateString()}</span></div>
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="w-3 h-3" />
+                        <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                      </div>
                     </div>
                     <h3 className="font-orbitron text-lg font-bold line-clamp-2 mb-3 text-violet-800">{post.title}</h3>
-                    <p className="font-inter text-violet-700/80 text-sm line-clamp-3 mb-4">{stripHtml(post.body).substring(0, 150)}...</p>
+
+                    {/* Job Details Rendering */}
+                    {post.category === "jobs" && post.jobDetails ? (
+                      <div className="font-inter text-violet-700/80 text-sm space-y-2 mb-4">
+                        <p><strong>Company:</strong> {post.jobDetails.company}</p>
+                        <p><strong>Location:</strong> {post.jobDetails.location}</p>
+                        <p><strong>Job Type:</strong> {post.jobDetails.jobType}</p>
+                        <p><strong>Salary:</strong> {post.jobDetails.salaryRange || `${post.jobDetails.salary.min} - ${post.jobDetails.salary.max}`}</p>
+                        <p><strong>Application Deadline:</strong> {new Date(post.jobDetails.applicationDeadline).toLocaleDateString()}</p>
+                        {post.jobDetails.requirements?.length > 0 && (
+                          <div>
+                            <strong>Requirements:</strong>
+                            <ul className="list-disc list-inside">
+                              {post.jobDetails.requirements.map((req, i) => <li key={i}>{req}</li>)}
+                            </ul>
+                          </div>
+                        )}
+                        {post.jobDetails.responsibilities?.length > 0 && (
+                          <div>
+                            <strong>Responsibilities:</strong>
+                            <ul className="list-disc list-inside">
+                              {post.jobDetails.responsibilities.map((resp, i) => <li key={i}>{resp}</li>)}
+                            </ul>
+                          </div>
+                        )}
+                        {/* {post.jobDetails.link && (
+                          <a href={post.jobDetails.link} target="_blank" className="text-blue-600 underline">Apply Now</a>
+                        )} */}
+                      </div>
+                    ) : (
+                      <p className="font-inter text-violet-700/80 text-sm line-clamp-3 mb-4">{stripHtml(post.body).substring(0, 150)}...</p>
+                    )}
                   </CardHeader>
+
                   <CardContent className="pt-0">
                     <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center space-x-2 text-sm text-violet-700/80"><User className="w-4 h-4" /><span>{post.author?.name || "Admin"}</span></div>
-                      <div className="flex items-center space-x-1 text-sm text-violet-700/80"><MessageCircle className="w-4 h-4" /><span>{post.commentCount} Comments</span></div>
+                      <div className="flex items-center space-x-2 text-sm text-violet-700/80">
+                        <User className="w-4 h-4" />
+                        <span>{post.author?.name || "Admin"}</span>
+                      </div>
+                      <div className="flex items-center space-x-1 text-sm text-violet-700/80">
+                        <MessageCircle className="w-4 h-4" />
+                        <span>{post.commentCount} Comments</span>
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 mt-4 mb-4">
                       <Share2 size={20} className="text-violet-500" />
