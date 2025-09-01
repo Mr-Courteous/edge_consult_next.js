@@ -5,7 +5,7 @@ import { Copy, Share2, Check, MessageCircle, Twitter, Facebook, Linkedin } from 
 // --- UI Components ---
 // Simple custom component for Badge
 const Badge = ({ variant, className, children }) => {
-    let baseStyles = "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2";
+    const baseStyles = "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2";
     let variantStyles = "";
 
     switch (variant) {
@@ -53,7 +53,7 @@ const Textarea = ({ className, value, onChange, placeholder }) => (
 
 // Simple custom component for Button
 const Button = ({ variant, size, onClick, className, disabled, type, children }) => {
-    let baseStyles = "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
+    const baseStyles = "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
     let variantStyles = "";
     let sizeStyles = "";
 
