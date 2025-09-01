@@ -12,7 +12,7 @@ import baseUrl from '@/lib/config';
 import toast from 'react-hot-toast';
 import ConfirmationModal from "@/components/ConfirmationModal";
 
-// Helper function to strip HTML tags
+// Helper function to strip HTML tag
 const stripHtml = (htmlString) => htmlString.replace(/<[^>]*>?/gm, '');
 
 // Copy to clipboard component
