@@ -229,8 +229,11 @@ const Blog = () => {
                         <p><strong>Company:</strong> {post.jobDetails.company}</p>
                         <p><strong>Location:</strong> {post.jobDetails.location}</p>
                         <p><strong>Job Type:</strong> {post.jobDetails.jobType}</p>
-                        <p><strong>Salary:</strong> {post.jobDetails.salaryRange || `${post.jobDetails.salary.min} - ${post.jobDetails.salary.max}`}</p>
-                        <p><strong>Application Deadline:</strong> {new Date(post.jobDetails.applicationDeadline).toLocaleDateString()}</p>
+                        <p>
+                          <strong>Salary:</strong>{' '}
+                          {post.jobDetails.salaryRange ||
+                            `${post.jobDetails.salary?.min} - ${post.jobDetails.salary?.max}`}
+                        </p>                        <p><strong>Application Deadline:</strong> {new Date(post.jobDetails.applicationDeadline).toLocaleDateString()}</p>
                         {post.jobDetails.requirements?.length > 0 && (
                           <div>
                             <strong>Requirements:</strong>
