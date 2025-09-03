@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import toast from 'react-hot-toast';
 import { Copy, Share2, Check, MessageCircle, Twitter, Facebook, Linkedin } from "lucide-react";
+import baseUrl from '@/lib/config';
+
 
 // --- UI Components ---
 // Simple custom component for Badge
@@ -212,7 +214,7 @@ const PostDetailClient = ({ post }: PostDetailClientProps) => {
         if (!postId) return;
         const fetchComments = async () => {
             try {
-                const res = await fetch(`https://your-backend-api.com/posts/${postId}/comments`);
+                const res = await fetch(`${baseUrl}/posts/${postId}/comments`);
                 if (!res.ok) throw new Error('Failed to fetch comments.');
                 const data: Comment[] = await res.json();
                 setComments(data);
@@ -234,7 +236,7 @@ const PostDetailClient = ({ post }: PostDetailClientProps) => {
         setIsSubmitting(true);
         try {
             const body = { content: commentContent, author_info: { fullName: authorName, email: authorEmail } };
-            const res = await fetch(`https://your-backend-api.com/posts/${postId}/comments`, {
+            const res = await fetch(`${baseUrl}/posts/${postId}/comments`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
@@ -245,7 +247,7 @@ const PostDetailClient = ({ post }: PostDetailClientProps) => {
             setAuthorEmail('');
             toast.success("Comment added successfully!");
             // Re-fetch comments
-            const updatedCommentsRes = await fetch(`https://your-backend-api.com/posts/${postId}/comments`);
+            const updatedCommentsRes = await fetch(`${baseUrl}/posts/${postId}/comments`);
             if (updatedCommentsRes.ok) setComments(await updatedCommentsRes.json());
         } catch {
             toast.error("Could not add comment.");
