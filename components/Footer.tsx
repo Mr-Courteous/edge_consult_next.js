@@ -16,7 +16,7 @@ const Footer = () => {
               Edge
             </div>
             <p className="font-inter text-violet-700/80 text-sm leading-relaxed">
-              Leading provider of modern business solutions with cutting-edge technology 
+              Leading provider of modern business solutions with cutting-edge technology
               and exceptional service. We help businesses transform and grow.
             </p>
             <div className="flex space-x-4 mt-4">
@@ -84,19 +84,16 @@ const Footer = () => {
             <h3 className="font-orbitron font-bold text-lg text-violet-800 mb-2">Contact Us</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-sm">
-                <MapPin size={18} className="text-fuchsia-500 flex-shrink-0" />
-                <span className="font-inter text-violet-700/80">
-                  123 Business Street<br />
-                  Suite 100, City, State 12345
-                </span>
+                <Phone size={18} className="text-fuchsia-500 flex-shrink-0" />
+                <span className="font-inter text-violet-700/80">+2347036699321</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Phone size={18} className="text-fuchsia-500 flex-shrink-0" />
-                <span className="font-inter text-violet-700/80">+1 (555) 123-4567</span>
+                <span className="font-inter text-violet-700/80">+2349133177331</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Mail size={18} className="text-fuchsia-500 flex-shrink-0" />
-                <span className="font-inter text-violet-700/80">hello@edge.com</span>
+                <span className="font-inter text-violet-700/80">edgetopconsult@gmail.com</span>
               </div>
             </div>
           </div>
