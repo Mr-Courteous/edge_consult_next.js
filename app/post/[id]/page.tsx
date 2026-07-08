@@ -30,8 +30,8 @@ async function getPost(id: string): Promise<Post | null> {
     }
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-    const { id } = params;
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+    const { id } = await params;
     const post = await getPost(id);
 
     if (!post) {
@@ -62,8 +62,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     };
 }
 
-const PostDetailPage = async ({ params }: { params: { id: string } }) => {
-    const { id } = params;
+const PostDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+    const { id } = await params;
     // Next.js automatically caches this fetch call because it's the same URL and options as in generateMetadata
     const post = await getPost(id);
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 // Import fonts using next/font for optimal performance
-import { Inter, Orbitron } from "next/font/google"; 
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google"; 
 
 // --- Global CSS Imports ---
 import "./globals.css"; 
@@ -13,15 +13,15 @@ import Footer from "../components/Footer";
 import { Toaster } from "react-hot-toast"; 
 
 // Configure your fonts
-const inter = Inter({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-plus-jakarta",
   display: "swap",
 });
 
-const orbitron = Orbitron({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-orbitron",
+  variable: "--font-outfit",
   display: "swap",
 });
 
@@ -51,7 +51,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
       </head>
       <body
-        className={`${inter.variable} ${orbitron.variable} antialiased min-h-screen flex flex-col`}
+        className={`${plusJakarta.variable} ${outfit.variable} antialiased min-h-screen flex flex-col`}
       >
         <Navbar />
         <main className="flex-1 pt-16">

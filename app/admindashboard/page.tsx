@@ -275,7 +275,7 @@ const AdminDashboard = () => {
 
   if (!user || !dashboardData || !metricsData) {
     return (
-      <div className="min-h-screen flex items-center justify-center font-orbitron text-xl text-violet-700">
+      <div className="min-h-screen flex items-center justify-center font-outfit text-xl text-violet-700">
         Loading dashboard...
       </div>
     );
@@ -283,83 +283,83 @@ const AdminDashboard = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-violet-700 to-fuchsia-700 py-8">
+      <div className="min-h-screen bg-gradient-to-br from-white via-violet-50/40 to-fuchsia-50/40 py-8">
         <div className="max-w-7xl mx-auto px-4 md:px-10">
           <div className="flex justify-between items-center mb-10">
             <div>
-              <h1 className="font-orbitron text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg">Admin Dashboard</h1>
-              <p className="font-inter text-md text-violet-200">Welcome back, {user.name}!</p>
+              <h1 className="font-outfit text-3xl md:text-4xl font-extrabold text-violet-950">Admin Dashboard</h1>
+              <p className="font-plus-jakarta text-md text-neutral-600">Welcome back, {user.name}!</p>
             </div>
-            <Button onClick={handleLogout} variant="outline" className="border-violet-400 text-violet-100 bg-white/10 hover:bg-violet-900/40 font-orbitron">
+            <Button onClick={handleLogout} variant="outline" className="border-violet-600 text-violet-700 bg-white hover:bg-violet-50 font-outfit shadow-sm">
               <LogOut className="w-4 h-4 mr-2" />
               Logout
             </Button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-7 mb-12">
-            <Card className="bg-gradient-to-br from-white via-violet-100 to-fuchsia-100 shadow-xl rounded-2xl">
+            <Card className="bg-white border border-violet-100/50 shadow-md rounded-2xl">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="font-orbitron text-sm font-medium text-violet-700">Total Posts</CardTitle>
+                <CardTitle className="font-outfit text-sm font-semibold text-violet-700">Total Posts</CardTitle>
                 <FileText className="h-5 w-5 text-fuchsia-500" />
               </CardHeader>
               <CardContent>
-                <div className="font-orbitron text-2xl font-extrabold text-violet-800">{dashboardData?.totalPosts ?? '--'}</div>
-                <p className="font-inter text-xs text-violet-700/80">Total posts created</p>
+                <div className="font-outfit text-2xl font-extrabold text-violet-900">{dashboardData?.totalPosts ?? '--'}</div>
+                <p className="font-plus-jakarta text-xs text-neutral-500">Total posts created</p>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-white via-violet-100 to-fuchsia-100 shadow-xl rounded-2xl">
+            <Card className="bg-white border border-violet-100/50 shadow-md rounded-2xl">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="font-orbitron text-sm font-medium text-violet-700">Total Users</CardTitle>
+                <CardTitle className="font-outfit text-sm font-semibold text-violet-700">Total Users</CardTitle>
                 <Users className="h-5 w-5 text-indigo-500" />
               </CardHeader>
               <CardContent>
-                <div className="font-orbitron text-2xl font-extrabold text-violet-800">{dashboardData?.users.length ?? '--'}</div>
-                <p className="font-inter text-xs text-violet-700/80">Number of registered users</p>
+                <div className="font-outfit text-2xl font-extrabold text-violet-900">{dashboardData?.users.length ?? '--'}</div>
+                <p className="font-plus-jakarta text-xs text-neutral-500">Number of registered users</p>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-white via-violet-100 to-fuchsia-100 shadow-xl rounded-2xl">
+            <Card className="bg-white border border-violet-100/50 shadow-md rounded-2xl">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="font-orbitron text-sm font-medium text-violet-700">Total Comments</CardTitle>
+                <CardTitle className="font-outfit text-sm font-semibold text-violet-700">Total Comments</CardTitle>
                 <MessageCircle className="h-5 w-5 text-violet-500" />
               </CardHeader>
               <CardContent>
-                <div className="font-orbitron text-2xl font-extrabold text-violet-800">
+                <div className="font-outfit text-2xl font-extrabold text-violet-900">
                   {metricsData?.postsWithMostComments?.reduce((total, post) => total + post.commentCount, 0) ?? '--'}
                 </div>
-                <p className="font-inter text-xs text-violet-700/80">All comments received</p>
+                <p className="font-plus-jakarta text-xs text-neutral-500">All comments received</p>
               </CardContent>
             </Card>
-            <Card className="bg-gradient-to-br from-white via-violet-100 to-fuchsia-100 shadow-xl rounded-2xl">
+            <Card className="bg-white border border-violet-100/50 shadow-md rounded-2xl">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="font-orbitron text-sm font-medium text-violet-700">Total Likes</CardTitle>
+                <CardTitle className="font-outfit text-sm font-semibold text-violet-700">Total Likes</CardTitle>
                 <Eye className="h-5 w-5 text-fuchsia-500" />
               </CardHeader>
               <CardContent>
-                <div className="font-orbitron text-2xl font-extrabold text-violet-800">
+                <div className="font-outfit text-2xl font-extrabold text-violet-900">
                   {metricsData?.postsWithMostLikes?.reduce((total, post) => total + post.likeCount, 0) ?? '--'}
                 </div>
-                <p className="font-inter text-xs text-violet-700/80">All likes received</p>
+                <p className="font-plus-jakarta text-xs text-neutral-500">All likes received</p>
               </CardContent>
             </Card>
           </div>
-          <Card className="bg-gradient-to-br from-white via-violet-100 to-fuchsia-100 shadow-xl rounded-2xl">
+          <Card className="bg-white border border-violet-100/60 shadow-lg rounded-2xl">
             <CardHeader>
-              <CardTitle className="flex items-center font-orbitron text-lg md:text-xl text-violet-800">
+              <CardTitle className="flex items-center font-outfit text-lg md:text-xl text-violet-950">
                 <PlusCircle className="w-5 h-5 mr-2 text-fuchsia-500" />
                 Create New Blog Post
               </CardTitle>
-              <CardDescription className="font-inter text-violet-700/80">
+              <CardDescription className="font-plus-jakarta text-neutral-500">
                 Share your insights and knowledge with the community
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6 font-inter">
+              <form onSubmit={handleSubmit} className="space-y-6 font-plus-jakarta">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="title" className="font-orbitron">Post Title *</Label>
+                    <Label htmlFor="title" className="font-outfit text-violet-900">Post Title *</Label>
                     <Input id="title" name="title" required value={formData.title} onChange={handleChange} placeholder="Enter post title" className="mt-1" />
                   </div>
                   <div>
-                    <Label htmlFor="category" className="font-orbitron">Category *</Label>
+                    <Label htmlFor="category" className="font-outfit text-violet-900">Category *</Label>
                     <Select
                       value={formData.category}
                       onValueChange={(value) => setFormData(prev => ({
@@ -370,10 +370,10 @@ const AdminDashboard = () => {
                         company: "", location: "", salaryRange: "", jobType: "", applicationDeadline: "", responsibilities: [], jobRequirements: [], link: ""
                       }))}
                     >
-                      <SelectTrigger className="mt-1 font-inter bg-gradient-to-r from-fuchsia-50 via-violet-50 to-indigo-50 border-violet-200 transition-colors duration-200 hover:bg-violet-100">
+                      <SelectTrigger className="mt-1 font-plus-jakarta bg-violet-50/50 border-violet-200 transition-colors duration-200 hover:bg-violet-100">
                         <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gradient-to-r from-fuchsia-50 via-violet-50 to-indigo-50 font-inter">
+                      <SelectContent className="bg-white border border-violet-100 font-plus-jakarta">
                         <SelectItem value="news" className="hover:bg-violet-100">News</SelectItem>
                         <SelectItem value="nysc" className="hover:bg-violet-100">NYSC</SelectItem>
                         <SelectItem value="scholarships" className="hover:bg-violet-100">Scholarships</SelectItem>
@@ -384,26 +384,26 @@ const AdminDashboard = () => {
                 </div>
                 {/* Conditional fields for Scholarships */}
                 {formData.category === 'scholarships' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border border-violet-200 rounded-xl bg-violet-50/50">
-                    <h3 className="font-orbitron text-lg font-bold col-span-2 text-violet-800">Scholarship Details</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-violet-100 rounded-xl bg-violet-50/30">
+                    <h3 className="font-outfit text-lg font-bold col-span-2 text-violet-900">Scholarship Details</h3>
                     <div>
-                      <Label htmlFor="country" className="font-orbitron">Country</Label>
+                      <Label htmlFor="country" className="font-outfit text-violet-900">Country</Label>
                       <Input id="country" name="country" value={formData.country} onChange={handleChange} placeholder="e.g., United Kingdom" className="mt-1" />
                     </div>
                     <div>
-                      <Label htmlFor="degree" className="font-orbitbon">Degree Level</Label>
+                      <Label htmlFor="degree" className="font-outfit text-violet-900">Degree Level</Label>
                       <Input id="degree" name="degree" value={formData.degree} onChange={handleChange} placeholder="e.g., Masters, PhD" className="mt-1" />
                     </div>
                     <div>
-                      <Label htmlFor="funding" className="font-orbitron">Funding</Label>
+                      <Label htmlFor="funding" className="font-outfit text-violet-900">Funding</Label>
                       <Input id="funding" name="funding" value={formData.funding} onChange={handleChange} placeholder="e.g., Full funding, Partial funding" className="mt-1" />
                     </div>
                     <div>
-                      <Label htmlFor="deadline" className="font-orbitron">Deadline</Label>
+                      <Label htmlFor="deadline" className="font-outfit text-violet-900">Deadline</Label>
                       <Input id="deadline" name="deadline" value={formData.deadline} onChange={handleChange} placeholder="e.g., November 2024" className="mt-1" />
                     </div>
                     <div className="col-span-2">
-                      <Label htmlFor="scholarshipRequirements" className="font-orbitron">Requirements</Label>
+                      <Label htmlFor="scholarshipRequirements" className="font-outfit text-violet-900">Requirements</Label>
                       <div className="flex gap-2 mt-1">
                         <Input
                           id="scholarshipRequirements"
@@ -417,11 +417,11 @@ const AdminDashboard = () => {
                             }
                           }}
                         />
-                        <Button type="button" onClick={handleAddScholarshipRequirement} variant="outline" className="border-violet-300 text-violet-800 font-orbitron">Add</Button>
+                        <Button type="button" onClick={handleAddScholarshipRequirement} variant="outline" className="border-violet-600 text-violet-700 hover:bg-violet-50 font-outfit">Add</Button>
                       </div>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {formData.scholarshipRequirements.map((req, index) => (
-                          <Badge key={index} variant="secondary" className="cursor-pointer font-orbitron" onClick={() => handleRemoveScholarshipRequirement(req)}>{req} ×</Badge>
+                          <Badge key={index} variant="secondary" className="cursor-pointer font-plus-jakarta bg-violet-50 border border-violet-100 text-violet-700 hover:bg-violet-100" onClick={() => handleRemoveScholarshipRequirement(req)}>{req} ×</Badge>
                         ))}
                       </div>
                     </div>
@@ -429,26 +429,26 @@ const AdminDashboard = () => {
                 )}
                 {/* Conditional fields for Jobs */}
                 {formData.category === 'jobs' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 border border-violet-200 rounded-xl bg-violet-50/50">
-                    <h3 className="font-orbitron text-lg font-bold col-span-2 text-violet-800">Job Details</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border border-violet-100 rounded-xl bg-violet-50/30">
+                    <h3 className="font-outfit text-lg font-bold col-span-2 text-violet-900">Job Details</h3>
                     <div>
-                      <Label htmlFor="company" className="font-orbitron">Company Name</Label>
+                      <Label htmlFor="company" className="font-outfit text-violet-900">Company Name</Label>
                       <Input id="company" name="company" value={formData.company} onChange={handleChange} placeholder="e.g., Google" className="mt-1" />
                     </div>
                     <div>
-                      <Label htmlFor="location" className="font-orbitron">Job Location</Label>
+                      <Label htmlFor="location" className="font-outfit text-violet-900">Job Location</Label>
                       <Input id="location" name="location" value={formData.location} onChange={handleChange} placeholder="e.g., Remote, Lagos, Nigeria" className="mt-1" />
                     </div>
                     <div>
-                      <Label htmlFor="jobType" className="font-orbitron">Job Type</Label>
+                      <Label htmlFor="jobType" className="font-outfit text-violet-900">Job Type</Label>
                       <Select
                         value={formData.jobType}
                         onValueChange={(value) => setFormData(prev => ({ ...prev, jobType: value }))}
                       >
-                        <SelectTrigger className="mt-1 font-inter bg-gradient-to-r from-fuchsia-50 via-violet-50 to-indigo-50 border-violet-200 transition-colors duration-200 hover:bg-violet-100">
+                        <SelectTrigger className="mt-1 font-plus-jakarta bg-violet-50/50 border-violet-200 transition-colors duration-200 hover:bg-violet-100">
                           <SelectValue placeholder="Select Job Type" />
                         </SelectTrigger>
-                        <SelectContent className="bg-gradient-to-r from-fuchsia-50 via-violet-50 to-indigo-50 font-inter">
+                        <SelectContent className="bg-white border border-violet-100 font-plus-jakarta">
                           <SelectItem value="Full-time">Full-time</SelectItem>
                           <SelectItem value="Part-time">Part-time</SelectItem>
                           <SelectItem value="Internship">Internship</SelectItem>
@@ -457,19 +457,19 @@ const AdminDashboard = () => {
                       </Select>
                     </div>
                     <div>
-                      <Label htmlFor="salaryRange" className="font-orbitron">Salary Range</Label>
+                      <Label htmlFor="salaryRange" className="font-outfit text-violet-900">Salary Range</Label>
                       <Input id="salaryRange" name="salaryRange" value={formData.salaryRange} onChange={handleChange} placeholder="e.g., $90k - $120k" className="mt-1" />
                     </div>
                     <div>
-                      <Label htmlFor="applicationDeadline" className="font-orbitron">Application Deadline</Label>
+                      <Label htmlFor="applicationDeadline" className="font-outfit text-violet-900">Application Deadline</Label>
                       <Input id="applicationDeadline" name="applicationDeadline" type="date" value={formData.applicationDeadline} onChange={handleChange} className="mt-1" />
                     </div>
                     <div>
-                      <Label htmlFor="link" className="font-orbitron">Application Link</Label>
+                      <Label htmlFor="link" className="font-outfit text-violet-900">Application Link</Label>
                       <Input id="link" name="link" value={formData.link} onChange={handleChange} placeholder="e.g., https://example.com/apply" className="mt-1" />
                     </div>
                     <div className="col-span-2">
-                      <Label htmlFor="responsibilities" className="font-orbitron">Responsibilities</Label>
+                      <Label htmlFor="responsibilities" className="font-outfit text-violet-900">Responsibilities</Label>
                       <div className="flex gap-2 mt-1">
                         <Input
                           id="responsibilities"
@@ -483,16 +483,16 @@ const AdminDashboard = () => {
                             }
                           }}
                         />
-                        <Button type="button" onClick={handleAddResponsibility} variant="outline" className="border-violet-300 text-violet-800 font-orbitron">Add</Button>
+                        <Button type="button" onClick={handleAddResponsibility} variant="outline" className="border-violet-600 text-violet-700 hover:bg-violet-50 font-outfit">Add</Button>
                       </div>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {formData.responsibilities.map((res, index) => (
-                          <Badge key={index} variant="secondary" className="cursor-pointer font-orbitron" onClick={() => handleRemoveResponsibility(res)}>{res} ×</Badge>
+                          <Badge key={index} variant="secondary" className="cursor-pointer font-plus-jakarta bg-violet-50 border border-violet-100 text-violet-700 hover:bg-violet-100" onClick={() => handleRemoveResponsibility(res)}>{res} ×</Badge>
                         ))}
                       </div>
                     </div>
                     <div className="col-span-2">
-                      <Label htmlFor="jobRequirements" className="font-orbitron">Requirements</Label>
+                      <Label htmlFor="jobRequirements" className="font-outfit text-violet-900">Requirements</Label>
                       <div className="flex gap-2 mt-1">
                         <Input
                           id="jobRequirements"
@@ -506,27 +506,27 @@ const AdminDashboard = () => {
                             }
                           }}
                         />
-                        <Button type="button" onClick={handleAddJobRequirement} variant="outline" className="border-violet-300 text-violet-800 font-orbitron">Add</Button>
+                        <Button type="button" onClick={handleAddJobRequirement} variant="outline" className="border-violet-600 text-violet-700 hover:bg-violet-50 font-outfit">Add</Button>
                       </div>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {formData.jobRequirements.map((req, index) => (
-                          <Badge key={index} variant="secondary" className="cursor-pointer font-orbitron" onClick={() => handleRemoveJobRequirement(req)}>{req} ×</Badge>
+                          <Badge key={index} variant="secondary" className="cursor-pointer font-plus-jakarta bg-violet-50 border border-violet-100 text-violet-700 hover:bg-violet-100" onClick={() => handleRemoveJobRequirement(req)}>{req} ×</Badge>
                         ))}
                       </div>
                     </div>
                   </div>
                 )}
                 <div>
-                  <Label htmlFor="image" className="font-orbitron">Featured Image</Label>
+                  <Label htmlFor="image" className="font-outfit text-violet-900">Featured Image</Label>
                   <div className="mt-1">
-                    <Input id="image" type="file" accept="image/*" onChange={handleImageChange} className="cursor-pointer font-inter" />
-                    <p className="text-sm text-violet-700/80 mt-1 font-inter">
+                    <Input id="image" type="file" accept="image/*" onChange={handleImageChange} className="cursor-pointer font-plus-jakarta" />
+                    <p className="text-sm text-neutral-500 mt-1 font-plus-jakarta">
                       Upload a featured image for your post (optional)
                     </p>
                   </div>
                 </div>
                 <div>
-                  <Label className="font-orbitron">Post Content *</Label>
+                  <Label className="font-outfit text-violet-900">Post Content *</Label>
                   {isMounted && (
                     <div className="mt-2">
                       <TiptapEditor
@@ -538,7 +538,7 @@ const AdminDashboard = () => {
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="tags" className="font-orbitron">Tags</Label>
+                  <Label htmlFor="tags" className="font-outfit text-violet-900">Tags</Label>
                   <div className="flex gap-2 mt-1">
                     <Input
                       id="tags"
@@ -551,20 +551,20 @@ const AdminDashboard = () => {
                           handleAddTag();
                         }
                       }}
-                      className="font-inter"
+                      className="font-plus-jakarta"
                     />
-                    <Button type="button" onClick={handleAddTag} variant="outline" className="border-violet-300 text-violet-800 font-orbitron">Add</Button>
+                    <Button type="button" onClick={handleAddTag} variant="outline" className="border-violet-600 text-violet-700 hover:bg-violet-50 font-outfit">Add</Button>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {tags.map((tag, index) => (
-                      <Badge key={index} variant="secondary" className="cursor-pointer font-orbitron" onClick={() => handleRemoveTag(tag)}>{tag} ×</Badge>
+                      <Badge key={index} variant="secondary" className="cursor-pointer font-plus-jakarta bg-violet-50 border border-violet-100 text-violet-700 hover:bg-violet-100" onClick={() => handleRemoveTag(tag)}>{tag} ×</Badge>
                     ))}
                   </div>
                 </div>
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-fuchsia-500 via-violet-500 to-indigo-500 text-white font-orbitron font-semibold px-8 py-4 text-lg shadow-xl hover:scale-105 hover:from-fuchsia-600 hover:to-violet-600 transition-all duration-200 border-none"
+                  className="w-full bg-gradient-to-r from-fuchsia-500 to-violet-600 text-white font-outfit font-semibold px-8 py-4 text-lg shadow-md hover:scale-105 hover:from-fuchsia-600 hover:to-violet-700 transition-all duration-200 border-none"
                 >
                   {isLoading ? "Publishing..." : (<><Upload className="w-4 h-4 mr-2" />Publish Post</>)}
                 </Button>

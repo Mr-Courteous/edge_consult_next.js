@@ -8,7 +8,7 @@ body {
   margin: 0;
   padding: 0;
   /* Sets the primary font for body text */
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
   /* Smoothes out font rendering on different browsers */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -17,7 +17,7 @@ body {
 /* Typography styles for headings */
 h1, h2, h3, h4, h5, h6 {
   /* Sets the font for all headings */
-  font-family: var(--font-orbitron), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
 }
 
 
@@ -35,7 +35,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Creates a text with a gradient background, making the text color transparent */
 .gradient-text {
-  background-image: linear-gradient(to right, #ff7e5f, #feb47b);
+  background-image: linear-gradient(to right, #059669, #4ade80);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -44,7 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Applies a gradient background to a block element */
 .bg-gradient-hero {
-  background: linear-gradient(to bottom right, #4a00e0, #8e2de2);
+  background: linear-gradient(to bottom right, #f9fdfa, #e8f7ee);
 }
 
 /* Adds a hover effect that lifts an element and adds a shadow */

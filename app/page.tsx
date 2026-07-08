@@ -36,31 +36,31 @@ export default function Index() {
   return (
     <>
       {/* Modern HERO */}
-      <section className="relative min-h-[75vh] flex items-center justify-center bg-gradient-to-br from-indigo-900 via-violet-700 to-fuchsia-700 overflow-hidden">
-        <div className="absolute inset-0 bg-black/40 z-0" />
+      <section className="relative min-h-[75vh] flex items-center justify-center bg-gradient-to-br from-white via-violet-50/60 to-fuchsia-50/60 overflow-hidden">
+        <div className="absolute inset-0 bg-white/70 z-0" />
         <div
-          className="absolute inset-0 z-0 bg-bottom bg-cover opacity-20" // <-- FIXED LINE: Changed from 'bg-contain bg-no-repeat' to 'bg-cover' and added 'bg-bottom'
+          className="absolute inset-0 z-0 bg-bottom bg-cover opacity-10" 
           style={{
             backgroundImage: `url(${heroBg.src})`
           }}
         />
         <div className="relative z-10 w-full">
           <div className="max-w-4xl mx-auto text-center px-4 md:px-12">
-            <h1 className="font-orbitron text-[2.8rem] md:text-[4rem] font-extrabold mb-8 leading-tight pt-16 md:pt-24 text-white drop-shadow-2xl tracking-tight">
+            <h1 className="font-outfit text-[2.8rem] md:text-[4rem] font-extrabold mb-8 leading-tight pt-16 md:pt-24 text-violet-950 tracking-tight">
               Transform Your Future with
               <br />
-              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-violet-400 to-indigo-400">
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-600 via-violet-600 to-indigo-600">
                 Edge Top Consult
               </span>
             </h1>
-            <p className="font-inter text-lg md:text-2xl mb-10 text-white/90 leading-relaxed font-light drop-shadow">
+            <p className="font-plus-jakarta text-lg md:text-2xl mb-10 text-neutral-600 leading-relaxed font-light">
               Bridging the gap between ambition and achievement through scholarships,
               career guidance, and life-changing opportunities worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-2 mb-8">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-fuchsia-500 to-violet-500 text-white font-orbitron font-semibold px-8 py-4 text-lg shadow-xl hover:scale-105 hover:from-fuchsia-600 hover:to-violet-600 transition-all duration-200 border-none"
+                className="bg-gradient-to-r from-fuchsia-500 to-violet-600 text-white font-outfit font-semibold px-8 py-4 text-lg shadow-lg hover:scale-105 hover:from-fuchsia-600 hover:to-violet-700 transition-all duration-200 border-none"
               >
                 Discover Opportunities
                 <ArrowRight className="ml-2" size={22} />
@@ -68,7 +68,7 @@ export default function Index() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-violet-300 text-violet-100 bg-white/10 hover:bg-violet-900/40 font-inter px-8 py-4 text-lg shadow-xl hover:scale-105 transition-all duration-200"
+                className="border-violet-600 text-violet-700 bg-white hover:bg-violet-50 font-plus-jakarta px-8 py-4 text-lg shadow-sm hover:scale-105 transition-all duration-200"
               >
                 Free Resources
               </Button>
@@ -78,25 +78,25 @@ export default function Index() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-b from-white via-violet-50 to-fuchsia-50">
+      <section className="py-20 bg-gradient-to-b from-white via-violet-50/20 to-fuchsia-50/20">
         <div className="max-w-7xl mx-auto px-4 md:px-10">
           <div className="text-center mb-16">
-            <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-6 text-violet-900 tracking-tight">
+            <h2 className="font-outfit text-3xl md:text-4xl font-bold mb-6 text-violet-950 tracking-tight">
               Why Choose <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-600 via-violet-700 to-indigo-700">Edge Top Consult</span>?
             </h2>
-            <p className="font-inter text-lg md:text-xl text-violet-700/80 max-w-2xl mx-auto font-light">
+            <p className="font-plus-jakarta text-lg md:text-xl text-neutral-600 max-w-2xl mx-auto font-light">
               Every individual deserves access to opportunities that can transform their future.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="hover-lift border-none bg-gradient-to-br from-white via-violet-100 to-fuchsia-100 shadow-xl rounded-2xl transition-all duration-300">
+              <Card key={index} className="hover-lift border border-violet-100/50 bg-white shadow-md rounded-2xl transition-all duration-300">
                 <CardContent className="p-10 text-center flex flex-col items-center">
-                  <span className="flex justify-center items-center mb-6 rounded-full bg-violet-100 p-5 shadow-lg">
+                  <span className="flex justify-center items-center mb-6 rounded-full bg-violet-50 p-5 shadow-sm">
                     {feature.icon}
                   </span>
-                  <h3 className="font-orbitron text-lg md:text-xl font-semibold mb-3 text-violet-800">{feature.title}</h3>
-                  <p className="font-inter text-base text-violet-700/80 font-light">{feature.description}</p>
+                  <h3 className="font-outfit text-lg md:text-xl font-semibold mb-3 text-violet-900">{feature.title}</h3>
+                  <p className="font-plus-jakarta text-base text-neutral-500 font-light">{feature.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -105,17 +105,17 @@ export default function Index() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gradient-to-br from-violet-700 via-indigo-700 to-fuchsia-700 text-white">
+      <section className="py-16 bg-gradient-to-b from-white via-violet-50/30 to-white text-violet-950 border-y border-violet-100/50">
         <div className="max-w-7xl mx-auto px-4 md:px-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="animate-fade-in rounded-xl shadow-lg bg-violet-800/70 py-8 px-4 flex flex-col items-center"
+                className="animate-fade-in rounded-xl shadow-sm bg-white border border-violet-100/60 py-8 px-4 flex flex-col items-center"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="font-orbitron text-3xl md:text-4xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-violet-400 to-indigo-400 drop-shadow-lg">{stat.number}</div>
-                <div className="font-inter text-base md:text-lg font-medium text-white/90">{stat.label}</div>
+                <div className="font-outfit text-3xl md:text-4xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-600 via-violet-600 to-indigo-600 drop-shadow-sm">{stat.number}</div>
+                <div className="font-plus-jakarta text-base md:text-lg font-medium text-neutral-500">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -123,17 +123,17 @@ export default function Index() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-fuchsia-700 via-violet-700 to-indigo-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 md:px-10 text-center">
-          <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-6 drop-shadow-2xl">
+      <section className="py-20 px-4">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 py-16 text-center bg-gradient-to-br from-white via-violet-50/55 to-fuchsia-50/55 border border-violet-100/70 shadow-xl rounded-3xl text-violet-950">
+          <h2 className="font-outfit text-3xl md:text-4xl font-bold mb-6">
             Ready to Transform Your Future?
           </h2>
-          <p className="font-inter text-lg md:text-xl mb-10 text-white/90 font-light drop-shadow">
+          <p className="font-plus-jakarta text-lg md:text-xl mb-10 text-neutral-600 font-light">
             Join hundreds of successful individuals and start your transformation today.
           </p>
           <Button
             size="lg"
-            className="bg-gradient-to-r from-white to-violet-300 text-violet-700 font-orbitron font-semibold px-12 py-5 text-xl shadow-2xl hover:scale-105 hover:from-violet-100 hover:to-white transition-all duration-200"
+            className="bg-gradient-to-r from-fuchsia-500 to-violet-600 text-white font-outfit font-semibold px-12 py-5 text-xl shadow-md hover:scale-105 hover:from-fuchsia-600 hover:to-violet-700 transition-all duration-200 border-none"
           >
             Start Your Journey
             <ArrowRight className="ml-2" size={24} />

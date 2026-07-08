@@ -1,21 +1,160 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-/*
-* The following are custom global styles that will be applied to your entire Next.js app.
-* They are placed after the Tailwind import so they can override default Tailwind styles if needed.
-*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Styles for the body, ensuring a full-page layout without unwanted margins or padding. */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 140 20% 12%; /* Elegant deep forest gray-green for text */
+  --card: 0 0% 100%;
+  --card-foreground: 140 20% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 140 20% 12%;
+  --primary: 142.1 70% 45%; /* Brighter, lighter premium emerald green */
+  --primary-foreground: 355.7 100% 99%;
+  --primary-glow: 142.1 70% 45%;
+  --secondary: 140 60% 97.5%; /* Extremely soft mint/white background touch */
+  --secondary-foreground: 142.1 70% 20%;
+  --muted: 140 60% 97.5%;
+  --muted-foreground: 140 12% 42%;
+  --accent: 140 60% 97.5%;
+  --accent-foreground: 142.1 70% 20%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 140 20% 94%; /* Clean light borders */
+  --input: 140 20% 94%;
+  --ring: 142.1 70% 45%;
+  --radius: 0.5rem;
+}
+
+@theme {
+  /* Override violet to emerald/green shades (shifted lighter) */
+  --color-violet-50: #f4fcf6;
+  --color-violet-100: #e6f9ed;
+  --color-violet-200: #cff3da;
+  --color-violet-300: #a2e8bb;
+  --color-violet-400: #6ad793;
+  --color-violet-500: #3dbd70;
+  --color-violet-600: #29a058;
+  --color-violet-700: #208246;
+  --color-violet-800: #1b683a;
+  --color-violet-900: #16532f;
+  --color-violet-950: #0d2e1b;
+
+  /* Override fuchsia to lime/bright green shades (shifted lighter) */
+  --color-fuchsia-50: #f9fef0;
+  --color-fuchsia-100: #f1fde0;
+  --color-fuchsia-200: #e2fbc1;
+  --color-fuchsia-300: #cef88c;
+  --color-fuchsia-400: #b5f252;
+  --color-fuchsia-500: #97d825;
+  --color-fuchsia-600: #7ab418;
+  --color-fuchsia-700: #5d8b10;
+  --color-fuchsia-800: #496d0e;
+  --color-fuchsia-900: #3c5a0b;
+  --color-fuchsia-950: #1f3004;
+
+  /* Override indigo to spruce/forest green shades (shifted lighter) */
+  --color-indigo-50: #f6fcf8;
+  --color-indigo-100: #e8f9ee;
+  --color-indigo-200: #d1f3dd;
+  --color-indigo-300: #a8e8c1;
+  --color-indigo-400: #73d79a;
+  --color-indigo-500: #46bd75;
+  --color-indigo-600: #30a05c;
+  --color-indigo-700: #268249;
+  --color-indigo-800: #20683c;
+  --color-indigo-900: #154527; /* Replaced dark blue-indigo background with a fresh rich pine */
+  --color-indigo-950: #0a2514;
+
+  /* Override blue to rich mint/emerald green (shifted lighter) */
+  --color-blue-50: #f4fcf6;
+  --color-blue-100: #e6f9ed;
+  --color-blue-200: #cff3da;
+  --color-blue-300: #a2e8bb;
+  --color-blue-400: #6ad793;
+  --color-blue-50: #3dbd70;
+  --color-blue-600: #29a058;
+  --color-blue-700: #208246;
+  --color-blue-800: #1b683a;
+  --color-blue-900: #16532f;
+
+  /* Override purple to sage/emerald green (shifted lighter) */
+  --color-purple-50: #f7fdfa;
+  --color-purple-100: #ebfaf1;
+  --color-purple-200: #dcf7e7;
+  --color-purple-300: #c0edd0;
+  --color-purple-400: #9adcae;
+  --color-purple-500: #6ec489;
+  --color-purple-600: #4da86a;
+  --color-purple-700: #3e8d55;
+  --color-purple-800: #347447;
+  --color-purple-900: #2b5f3a;
+
+  /* Override pink to light green/mint (shifted lighter) */
+  --color-pink-50: #f4fcf6;
+  --color-pink-100: #e6f9ed;
+  --color-pink-200: #cff3da;
+  --color-pink-300: #a2e8bb;
+  --color-pink-400: #6ad793;
+  --color-pink-500: #3dbd70;
+  --color-pink-600: #29a058;
+  --color-pink-700: #208246;
+  --color-pink-800: #1b683a;
+  --color-pink-900: #16532f;
+}
+
 body {
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif;
 }
 
-/* Sets a consistent font family for all heading elements. */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-orbitron), system-ui, -apple-system, sans-serif;
+
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
