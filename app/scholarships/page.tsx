@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   description: 'Discover life-changing scholarship opportunities worldwide, from undergraduate to PhD programs.',
 };
 
+export const dynamic = 'force-dynamic';
+
+
 const ScholarshipsPage = async () => {
   let scholarships = [];
   let error = null;
